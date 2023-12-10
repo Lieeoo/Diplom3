@@ -1,0 +1,1 @@
+export {getInformation} from './ProfileFetchGetInfo';

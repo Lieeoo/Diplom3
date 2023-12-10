@@ -1,0 +1,42 @@
+import './ProjectCSS.css';
+
+import icon from "./icon.png"
+
+function TopPanel() {
+	return(
+		<div className="topPanel">
+			<body>
+			
+				<img src={icon} className="icon" alt /> 
+				<t> </t> 
+				<a href="http://localhost:3000/"> 
+					<button > Классы </button> 
+				</a>
+				<t> </t>				
+				<a href="http://localhost:3000/"> 
+					<button className="topButtons"> Воспитательная работа </button> 
+				</a> 
+				<t> </t>
+				<a href="http://localhost:3000/"> 
+					<button className="topButtons"> Отчеты </button> 
+				</a> 
+				<t> </t>
+				<a href="http://localhost:3000/"> 
+					<button className="topButtons"> Управление </button> 
+				</a> 
+				<t> </t>
+				<a href="http://localhost:3000/Profile"> 
+					<button className="topButtons"> Профиль </button> 
+				</a>
+				<t> </t>
+				<a href="http://localhost:3000/"> 
+					<button className="topButtons"> Выход </button> 
+				</a> 
+				
+			</body>
+		</div>
+	);
+
+}
+
+export default TopPanel;

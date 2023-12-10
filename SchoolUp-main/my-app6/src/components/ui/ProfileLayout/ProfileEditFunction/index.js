@@ -1,0 +1,1 @@
+export {editUserInformation, editUserPass} from './ProfileEditFunction';

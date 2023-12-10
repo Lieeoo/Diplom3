@@ -1,0 +1,48 @@
+import './ProjectCSS.css';
+
+import TopPanel from "./TopPanel.js";
+
+
+function Page() {
+	return (
+		<div className="pages">
+			
+				
+				< TopPanel />
+				
+				
+				<div className="Profile">
+				
+					<h1>Администратор Администратович Администратов</h1>
+					
+					<a href="http://localhost:3000/"> 
+					<button className="profButtons"> Редактировать профиль </button> 
+					</a>
+					<t> </t>
+					<a href="http://localhost:3000/"> 
+					<button className="profButtons"> Изменить пароль </button> 
+					</a>
+					
+					<p text=leftContext> Логин: admin </p>
+					
+					<div className="infoClass">
+							Связанные классы:
+							<p> </p>
+						</div>
+							
+					<div className="infoRole">
+						Роли в системе:
+						<p> Администратор </p>
+						</div>
+				
+			
+						
+				</div>
+				
+				
+			
+		</div>
+  );	
+}
+
+export default Page;

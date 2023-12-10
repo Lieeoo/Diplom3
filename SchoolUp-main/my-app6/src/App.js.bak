@@ -1,0 +1,23 @@
+import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Routes, useRouteMatch, Switch } from "react-router-dom";
+
+// Авторизация
+import LoginPage from "./login.js";
+import Profile from "./Profile.js";
+
+
+function App() {
+  return (
+	<Router>
+		<div className="App">
+			<Routes>
+				<Route path="/" exact element={<LoginPage/>}/>
+				<Route path="/profile/:id" exact element={<Profile/>}/>
+			</Routes>
+		</div>
+	</Router>
+  );
+}
+
+
+export default App;

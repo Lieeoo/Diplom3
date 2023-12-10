@@ -1,0 +1,10 @@
+[
+  {
+	"user_id":"1",
+    "login": "admin",
+    "password": "vadim34gta!",
+	"FName":"Администратор",
+	"LName":"Администратович"
+  }
+
+]

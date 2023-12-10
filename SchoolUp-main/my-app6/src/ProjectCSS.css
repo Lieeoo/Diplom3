@@ -1,0 +1,679 @@
+/* Основа страницы */
+.App {
+	text-align: center;
+	background-color: #EEF6F6;
+	font-size: 22px;
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.pages {
+	background-color: #D4E4EF;
+	min-height: 100vh;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.normFlex {
+	margin-left:auto;
+	margin-right:auto;
+}
+/* Верхняя панель на странице */
+.topPanel {
+	background-color: #EEF6F6;
+	border: 0.5px solid #D4E4EF;
+	height: 8vh;
+	width: 210vh;
+}
+.topButtons{
+	background: #D4E4EF;
+	border: 1px solid #D4E4EF;
+	font-size: 2vh;
+	flex-direction: column;
+	margin-left: 0.5vh;
+	margin-right: 0.5vh;
+	width: 18vh;
+	border-radius: 1vh;
+	height: 7vh;
+	padding-top: 5px;
+}
+.topButtons2{
+	background: #edf4ff;
+	border: 1px solid #D4E4EF;
+	font-size: 2vh;
+	flex-direction: column;
+	margin-left: 0.5vh;
+	margin-right: 0.5vh;
+	border-radius: 1vh;
+	width: 19vh;
+	height: 13vh;
+	padding-top: 5px;
+}
+.icon {
+	height: 35px;
+	top: 2vh ;
+	position: relative;
+}
+
+/* Основа основного интерфейса, шаблоны */
+
+.LeftPanel {
+	//background: #C2D9EA;
+	width: 20vh;
+	height: 20vh;
+	font-size: 15px;
+	margin-top: 4vh;
+	margin-left: 33.5vh;
+}
+.leftButtons {
+	background: #D4E4EF;
+	border: 1px solid #D4E4EF;
+	text-align: left;
+	width: 20vh;
+	height: 3vh;
+}
+.main {
+	background: #EEF6F6;
+	width: 140vh;
+	height: 85vh;
+	margin-left: 53.5vh;
+	margin-top: 2vh;
+	position: absolute;
+	bottom: 3vh;
+	border: 1px solid #D4E4EF;
+	border-radius: 20px;
+}
+/* Авторизация */
+.Login {
+	border-radius: 2vh;
+	background-color: #C4C4C4;
+	height: auto;
+	width: 35vh;
+	
+	text-align: center;
+	align-items: center;
+	
+	display: flex;
+	flex-direction: column;
+	flex-wrap: flex;
+	font-size: 3vh;
+}
+
+.loginimp{
+	border-radius: 2vh;
+	
+	text-align: center;
+	align-items: center;
+	
+	margin-top: 0.5vh;
+	align-items: center;
+	display: column;
+	flex-direction: column;
+	font-size: 2vh;
+}
+
+.loginbutt{
+	text-align: center;
+	align-items:center;
+	display: column;
+	
+	flex-direction: column;
+	flex-wrap: flex;
+	font-size: 2vh;
+	
+	margin-top: 0.5ch;
+	margin-bottom: 1vh;
+}
+
+.Login-error-text{
+	text-align: center;
+	color: red;
+	position: absolute;
+	
+	align-items: center;
+	display: column;
+	flex-direction: column;
+	font-size: 2vh;	
+}
+
+/* Профиль пользователя */
+
+.Profile {
+	font-size: 20px;
+	background: #EEF6F6;
+	
+	border: 1px solid #D4E4EF;
+	border-radius: 3vh;
+	
+	width: auto;
+	height: auto;
+	
+	margin-left: 83vh;
+	margin-top: 2vh;
+	
+	position: absolute;
+	
+}
+.profButtons{
+	background: #D4E4EF;
+	border: 1px solid #D4E4EF;
+	border-radius: 1vh;
+	
+	margin-left: 1vh;
+	margin-right: 1vh;
+	
+	text-align: center;
+	
+	width: auto;
+	height: 4vh;
+}
+.infoClass{
+	text-align: center;
+	font-size: 15px;
+	
+	margin-left: auto;
+	margin-right: auto;
+	
+	height: auto;
+	width: 35vh;
+	
+	border: 2px solid #D4E4EF;
+	border-radius: 1vh;
+}
+.infoRole {
+	text-align: center;
+	font-size: 15px;
+	
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 1vh;
+	margin-top: 0.5vh;
+	
+	height: auto;
+	width: 35vh;
+	
+	border: 2px solid #D4E4EF;
+	border-radius: 1vh;
+}
+
+/* Классы */
+/* Внеучебная деятельность */
+/* Отчёты */
+/* Администрирование */
+
+/* Прочее */
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+.App-link {
+  color: #61dafb;
+}
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/*Тест*/
+.Test{
+	font-size: 20px;
+	position: relative;
+	display:flex;
+	justify-content: center;
+	margin-top:20px;
+	
+}
+.Blockk{
+	font-size: 20px;
+	background: #eef6f6;
+	max-width: 157vh;
+	width: 157vh;
+	margin-bottom:30px;
+	padding: 20px;
+	min-height: 100vh;
+	display:flex;
+	border-radius: 3vh;
+}
+.Blockk3{
+	font-size: 20px;
+	text-align: left;
+	background: #edf4ff;
+	width: 157vh;	
+	min-height: 100vh;
+}
+.ClCl{
+	font-size: 20px;
+	width: 200px;
+	position: relative;
+	margin-top:15px;
+	overflow: hidden;
+	display:flex;
+	flex-direction: column;
+}
+.ClyCl{
+	font-size: 20px;
+	background: #edf4ff;
+	width:210px;
+	position: relative;
+	margin-top: 15px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+	margin-bottom: 15px;
+	text-align: center;
+	border-radius: 1vh;
+	border: 0px;
+}
+.ClnCl{
+	font-size: 20px;
+	background: #ACC8D2;
+	width:210px;
+	position: relative;
+	margin-top: 15px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+	margin-bottom: 15px;
+	text-align: center;
+	border-radius: 1vh;
+	border: 0px;
+}
+.St{
+	font-size: 15px;
+	background: #ACC8D2;
+	width: 550px;	
+	position: relative;
+	text-align: center;
+	padding: 10px;
+	border-radius: 3vh;
+	border: 1px solid #495b87;
+}
+.SetSPClass{
+	margin-left: auto;
+}
+.ListSt{
+	font-size: 20px;
+	text-align: left;
+	position: relative;
+}
+.ListSt2{
+	font-size: 20px;
+	position: relative;
+	display: flex;
+}
+.TextBox{
+	font-size: 15px;
+	width: 500px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	text-align: left;
+	display: flex;
+}
+.TextBox2{
+	border-radius: 2vh;
+	border: 0.2vh solid #495b87;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.TextBox3{
+	margin-left: 1vh;
+	margin-right: 1vh;
+	margin-top: 0.5vh;
+	align-items: center;
+	
+	display: flex;
+    flex-direction: column;
+}
+.TextBox4{
+	font-size: 1.6vh;
+	margin-bottom: 1vh;
+	float: left;
+}
+.TextBox5{
+	font-size: 2vh;
+	margin-bottom: 1vh;
+	display: flex;
+	justify-content: center;
+}
+.btnNewSt{
+	background: #ACC8D2;
+	font-size: 15px;
+	position: relative;
+	text-align: center;
+}
+
+/*Воспитательная работа, воспитательные события*/
+.ClyClVR{
+	font-size: 14px;
+	background: #edf4ff;
+	width:210px;
+	height: 5vh;
+	position: relative;
+	top: 15px;
+	margin-bottom: 15px;
+	text-align: center;
+	border-radius: 1vh;
+	
+}
+.ClnClVR{
+	font-size: 14px;
+	background: #ACC8D2;
+	width:200px;
+	height: 5vh;
+	position: relative;
+	top: 15px;
+	margin-bottom: 15px;
+	text-align: center;
+	border: 0px;
+}
+
+.FlRight{
+	margin-left:auto;
+}
+.FlText{
+	font-size: 15px;	
+	text-align: left;
+	margin-top: 5px;
+}
+.FlOr{
+	font-size: 15px;
+	width: 300px;
+	height: 15px;	
+	text-align: left;
+}
+.ListPr{
+	font-size: 16px;
+	background: #ACC8D2;
+	width: 650px;	
+	position: relative;
+	text-align: left;
+	padding: 15px;
+	float: left;
+	border-radius: 2vh;
+	border: 1px solid #495b87;
+}
+.TextStyleNVR{
+	font-size: 14px;
+	margin-left: 10px;
+}
+.TextStyleNVR2{
+	background: #ACC8D2;
+	font-size: 14px;
+	padding: 10px;
+	border-radius: 2vh;
+	border: 1px solid #495b87;
+
+}
+.TextStyleNVR3{
+	background: #D4E4EF;
+	font-size: 14px;
+	margin-left: 5px;
+	margin-right: 5px;
+	padding: 10px;
+	border-radius: 2vh;
+	border: 1px solid #495b87;
+}
+.displayFlex{
+	display: flex;
+	position: relative;
+}
+.displayFlex2{
+	display: flex;
+	position: relative;
+	flex-direction:row;
+}
+.float{
+	float: left;
+	float: bottom;
+	float: right;
+	float: top;
+}
+.ucheniki2{
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-wrap: wrap;
+}
+.clprofile2{
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-wrap: wrap;
+}
+.clprofile3{
+	margin-left:auto;
+	margin-right:auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.oNormSee{
+	display: flex;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.displayFlexColumn{
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.displayFlexColumnNorm{
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	width: 100%;
+}
+
+.paddingLeft{
+	padding-left:10px;
+}
+.TextStyleNVR3Holder{
+	display: flex;
+	justify-content: center;
+}
+.TBVR{
+	background: #D4E4EF;
+	border: 1px solid #495b87;
+	flex-direction: column;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	padding: 10px;
+	margin: 10px;
+	border-radius: 1vh;
+}
+
+/*Воспитательная работа, воспитательные события, редактиование*/
+.ListPrTextRed{
+	font-size: 12px;
+	width: 500px;
+	height: 10px;	
+	text-align: left;
+	margin-bottom: 15px;
+}
+.VRredBox{
+	background: #D4E4EF;
+	width: 400px;
+	height: 300px;
+	position: relative;	
+	top: 30px;
+	float: left;
+	margin-right: 20px;
+}
+.ListPrRed{
+	font-size: 20px;
+	background: #ACC8D2;
+	width: 850px;
+	height: 400px;	
+	right: 30px;
+	top: 30px;
+	text-align: left;
+	padding-left: 6px;	
+}
+.TBVRed{
+	background: #D4E4EF;
+	border: 1px solid #D4E4EF;
+	margin-right: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.TBVRed2{
+	background: #f0ffff;
+	border: 1px solid #D4E4EF;
+	margin-right: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.ListBox{
+	background: #EEF6F6;
+	width: 300px;
+	height: 50px;
+}
+/*Архив событий, просмотр события*/
+.ListPr2{
+	font-size: 20px;
+	background: #ACC8D2;
+	width: 700px;
+	height: 150px;	
+	right: 30px;
+	top: 30px;
+	text-align: left;
+	padding-left: 6px;	
+}
+/*Список классов, редактирование профиля*/
+.ListClRed{
+	font-size: 20px;
+	background: #ACC8D2;
+	width: 950px;
+	height: 400px;	
+	right: 30px;
+	top: 30px;
+	text-align: left;
+	padding-left: 6px;	
+}
+.VRredBox2{
+	background: #D4E4EF;
+	width: 500px;
+	height: 300px;
+	position: relative;	
+	top: 30px;
+	float: left;
+	margin-right: 20px;
+}
+/*Отчеты*/
+
+.OClNORMBlock{
+	font-size: 18px;
+	text-align: left;
+	padding: 3vh;
+}
+.OClNORMBlockIn{
+	text-align: left;
+}
+
+.OClNORMBlockInName{
+	margin-right: auto;
+}
+.ONORMVIR{
+	display:flex;
+	margin-right:auto;
+	margin-left:auto;
+}
+.OTB2{
+	position: relative;	
+	display: flex;
+	background: #ACC8D2;
+	width:300px;
+	border: 1px solid #495b87;
+	border-radius: 3vh;
+	margin-left: 10px;
+	margin-right: 10px;	
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: column;
+}
+.ListPr3{
+	font-size: 20px;
+	text-align: left;
+	padding: 10px;	
+}
+.ListPr4{
+	font-size: 15px;
+	text-align: left;
+	padding: 10px;	
+}
+.ListPrText{
+	font-size: 20px;
+	display: flex;
+}
+
+.MOCl{
+	background: #D4E4EF;
+	font-size: 12px;	
+	text-align: left;
+}
+/*Цели воспитательной работы*/
+.Blockk2{
+	font-size: 12px;
+	text-align: left;
+	background: #edf4ff;
+	width: 157vh;
+	margin-bottom:auto;
+	min-height: 100vh;
+	white-space: pre-wrap;
+}
+.pages2 {
+	background-color: #D4E4EF;
+	min-height: 100vh;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding-bottom: 20px;
+}
+.pr{
+	position: relative;
+	bottom:20px;
+}
+.overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+	min-height: 100%;
+	background-Image: url(./images/background.png);
+	background-Position: center;
+	background-Repeat: repeat;
+	position: fixed;
+}
+
+.overlay2 {
+	top:98px;
+    left:578px;
+	position: absolute;
+}

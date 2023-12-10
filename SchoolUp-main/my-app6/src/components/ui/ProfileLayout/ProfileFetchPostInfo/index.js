@@ -1,0 +1,1 @@
+export {PostUserInfo, PostNewUserPass} from './ProfileFetchPostInfo';
