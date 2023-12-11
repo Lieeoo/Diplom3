@@ -23,8 +23,11 @@ const Student = sequelize.define('Student', {
     group_of_risk: {type: DataTypes.STRING, defaultValue: "вне группы риска"},//группа риска
     family_id: {type: DataTypes.INTEGER,defaultValue: 0},// айди семейки из которой он пришел в школу
     PFDO: {type: DataTypes.STRING, defaultValue: "отсутствует"},// номер пфдо ученика
+    date_of_activation_PFDO:{type: DataTypes.DATEONLY},
     sex: {type: DataTypes.INTEGER, defaultValue: 0},//по умолчанию пол будет средним между мальчиком и девочкой
- 
+    ball_of_abiturient: {type: DataTypes.INTEGER, defaultValue: 0},
+    highter_educ:{type: DataTypes.BOOLEAN, defaultValue: false},
+    direction:{type: DataTypes.STRING, defaultValue: "отсутствует"},
 })
 
 
@@ -134,6 +137,41 @@ const Class = sequelize.define('Class',{
 
         name:{type: DataTypes.TEXT('long'), allowNull: false },
     })
+
+    const Res_Agr = sequelize.define('Res_Agr',{
+      id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},//айди класса что очевидно
+      StudentID:{type: DataTypes.INTEGER,allowNull: false},  
+      RoomID:{type: DataTypes.INTEGER,allowNull: false},  
+      Agr_to_contractID:{type: DataTypes.INTEGER,allowNull: false}, 
+      date: {type: DataTypes.DATEONLY},
+      date_of_beginning: {type: DataTypes.DATEONLY},
+      date_of_canceling: {type: DataTypes.DATEONLY},
+      }) 
+
+      const Room = sequelize.define('Room',{
+         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},//айди класса что очевидно  
+         DormitoryID:{type: DataTypes.INTEGER,allowNull: false},  
+         Floor:{type: DataTypes.INTEGER,allowNull: false}, 
+         Numb_of_max_residents :{type: DataTypes.INTEGER,allowNull: false,defaultValue: 3},
+
+      })  
+      const Dormitory = sequelize.define('Dormitory',{
+         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},//айди класса что очевидно  
+         name: {type: DataTypes.STRING,allowNull: false, defaultValue: "безымянный"},
+         adress:{type: DataTypes.STRING,allowNull: false, defaultValue: "безымянович"},
+
+      })
+      
+      const Contract_to_agreement = sequelize.define('Contract_to_agreement',{
+         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},//айди класса что очевидно
+         date: {type: DataTypes.DATEONLY},
+         rent:{type: DataTypes.INTEGER, defaultValue: 0},
+         Rector_order:{type: DataTypes.STRING, allowNull: false, defaultValue: "отсутствует"},
+         }) 
+
+      
+
+
 //-------------------------------ПРОМЕЖУТОЧНЫЕ ТАБЛИЦЫ СВЯЗИ МНОГИЕ КО МНОГИМ---------------------------------------------------------------------------
 const formorab_Napravl = sequelize.define('formorab_Napravl', {
    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
