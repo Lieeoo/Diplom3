@@ -10,7 +10,7 @@ class StudentController {
     async create(req,res,next)  // создание студентишка
     {
         try{
-            let {name, fullname, class_ID, birthday, group_of_risk,family_id,PFDO,sex} = req.body// берем с тела реквеста  значения полей
+            let {name, fullname, class_ID, birthday, group_of_risk,family_id,PFDO,sex,ball_of_abiturient,highter_educ,direction} = req.body// берем с тела реквеста  значения полей
             //const {img} = req.files
            // let fileName = uuid.v4() + ".jpg"// если было значение файла, то мы кидаем в статику файл, и прикрепляем название картинки в базу данных
            // img.mv(path.resolve(__dirname, '..', 'static', fileName))
@@ -28,7 +28,7 @@ class StudentController {
 
 
 
-            const student = await Student.create({name, fullname, class_ID, birthday, group_of_risk,family_id,PFDO,sex});
+            const student = await Student.create({name, fullname, class_ID, birthday, group_of_risk,family_id,PFDO,sex,ball_of_abiturient,highter_educ,direction});
             return res.json(student)
         }
         catch(e)
@@ -150,7 +150,7 @@ class StudentController {
 
 
     async studred2(req,res,next)
-    {let {id,class_ID,name,fullname,birthday,group_of_risk,family_id,PFDO,sex }= req.body
+    {let {id,name, fullname, class_ID, birthday, group_of_risk,family_id,PFDO,sex,ball_of_abiturient,highter_educ,direction }= req.body
     if(!id){
         return next(ApiError.badrequest('отсутствует айди'))
     }
@@ -163,7 +163,11 @@ class StudentController {
     family_id=family_id||candidate.family_id
     PFDO=PFDO||candidate.PFDO
     sex=sex||candidate.sex
-    
+    ball_of_abiturient||candidate.ball_of_abiturient
+    highter_educ||candidate.highter_educ
+    direction||candidate.direction
+
+
     if(!candidate) return next(ApiError.badrequest('событие не найдено'))
     await Student.update({ class_ID,name,fullname,birthday,group_of_risk,family_id,PFDO,sex},
       {

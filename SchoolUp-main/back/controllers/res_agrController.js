@@ -25,7 +25,7 @@ date_of_canceling=date_of_canceling||(date.getDate() + 365);
         return res.json(type)
     }
 
-
+    
 
     async getALL(req,res) 
     { 
@@ -34,9 +34,15 @@ date_of_canceling=date_of_canceling||(date.getDate() + 365);
     }
 
     async getONE(req,res) 
-    { const {id } = req.body
-    const types = await Res_Agr.findOne({where:{id}})
-        return res.json(types)    
+    { const {id,StudentID } = req.body
+    if(id||StudentID){
+    const types = await Res_Agr.findOne({where:{id,StudentID}})
+        return res.json(types)    }
+
+    else 
+        return res.json({message: "недостаточно данных для поиска"})
+
+
     }
 
     async delete(req,res,next) 
