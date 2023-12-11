@@ -314,4 +314,5 @@ module.exports = {
     Institution,
     Plan_Of_Class,
     Task,
+    Res_Agr,
 }
