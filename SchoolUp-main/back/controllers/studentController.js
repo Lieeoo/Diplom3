@@ -74,7 +74,7 @@ class StudentController {
 
         let classes;
         
-            classes= await Student.findAndCountAll()//FindAll Находит всех, а финдэндкаунт еще и  выдает фронту количевство        
+            classes= await Student.findAll()//FindAll Находит всех, а финдэндкаунт еще и  выдает фронту количевство        
                     return res.json(classes)
     }
 
