@@ -209,7 +209,7 @@ class StudentController {
 
         let classes;
         if(!class_ID && !family_id){
-            return next(ApiError.badrequest('поля пусты'))
+            return (ApiError.badrequest('поля пусты'))
 
         }
             else if(class_ID && !family_id){
