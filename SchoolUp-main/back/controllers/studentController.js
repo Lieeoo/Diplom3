@@ -45,7 +45,7 @@ class StudentController {
     async getALL(req,res) 
     { let {class_ID, family_id, limit, page}= req.query
         page = page || 1
-        limit = limit || 30
+        limit = limit || 99999
         let ofset =(page-1)*limit
 
 
