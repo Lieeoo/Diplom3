@@ -68,7 +68,15 @@ class StudentController {
                     return res.json(classes)
     }
     //------------------------------------------------------------------------------------------
+    async getReallyALL(req,res) 
+    { 
+        
 
+        let classes;
+        
+            classes= await Student.findAndCountAll()//FindAll Находит всех, а финдэндкаунт еще и  выдает фронту количевство        
+                    return res.json(classes)
+    }
 
 
 
