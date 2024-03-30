@@ -6,6 +6,8 @@ const {Student} = require('../models/model');
 const ApiError = require('../errors/ApiError');
 const { json } = require("express/lib/response");
 const jwt= require('jsonwebtoken')
+const { exec } = require("child_process");
+
 
 class ClassController {
     async create(req,res,next) 
@@ -23,6 +25,49 @@ class ClassController {
         {
             next(ApiError.badRequest(e.message))
         }
+    }
+
+    async convertToPdf(req, res) {
+
+        if (!req.file) {
+            console.log("Файл не получен");
+            return res.status(400).send("Файл не был загружен");
+        } else {
+            console.log("Файл получен:", req.file.path);
+            // Тут можете временно вернуть ответ клиенту
+            return res.send("Файл успешно загружен");
+        }
+
+        /*console.log("a");
+
+        if (!req.file) {
+            return next(ApiError.badRequest("Файл не был загружен"));
+        }
+    
+        const docPath = req.file.path;
+        const pdfPath = req.file.destination + '/' + req.file.filename + '.pdf';
+    
+        // Команда для конвертации файла в PDF с использованием LibreOffice
+        const convertCommand = `libreoffice --headless --convert-to pdf --outdir "${req.file.destination}" "${docPath}"`;
+    
+        exec(convertCommand, (error) => {
+            if (error) {
+                console.error(`Ошибка при конвертации: ${error}`);
+                return res.sendStatus(500);
+            }
+    
+            // Отправляем сконвертированный PDF обратно на клиент
+            res.sendFile(pdfPath, (err) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                }
+                // После отправки можно удалить исходный и сконвертированный файлы
+                fs.unlinkSync(docPath);
+                fs.unlinkSync(pdfPath);
+            });
+        });
+        */
     }
 
 

@@ -13,13 +13,13 @@ export function TopPanelUniversity() {
 				<a href="extracurricular_work"> 
 					<button id="extracurricularWork" className="topbuttonUniversity"> Внеучебная работа </button> 
 				</a> 
-				<a href="material_aid"> 
-					<button id="materialAid" className="topbuttonUniversity"> Материальная помощь </button> 
+				<a href="material_work"> 
+					<button id="materialWork" className="topbuttonUniversity"> Материальная помощь </button> 
 				</a>
-				<a href="accommodation_dormitories"> 
-					<button id="accommodationDormitories" className="topbuttonUniversity"> Расселение в общежития </button> 
+				<a href="dormitories_work"> 
+					<button id="dormitoriesWork" className="topbuttonUniversity"> Расселение в общежития </button> 
 				</a>
-				<a href="report_manager_employment"> 
+				<a href="university_report_page"> 
 					<button id="reportManagerEmploymentUniversity" className="topbuttonUniversity"> Менеджер отчётов </button> 
 				</a>
 				{localStorage.getItem("userRole")=="ADMIN" && <div>
@@ -110,6 +110,40 @@ export function LeftPanelOfEducationalWork() {
 	);
 
 }
+
+export function LeftPanelOfExtracurricularWork() {
+	return(
+		<div className="bookmarks">
+			<a href="educational_work"><button id="vr" className="leftPanelUniversity">Внеучебные события</button></a> 
+			<a href="goals_of_educational_work"><button id="cvr" className="leftPanelUniversity">Цели внеучебной работы</button></a>
+			<a href="educational_work_archive"><button id="as" className="leftPanelUniversity">Архив событий</button></a>
+		</div>
+	);
+
+}
+
+export function LeftPanelOfMaterialrWork() {
+	return(
+		<div className="bookmarks">
+			<a href="educational_work"><button id="vr" className="leftPanelUniversity">Документы</button></a> 
+			<a href="goals_of_educational_work"><button id="cvr" className="leftPanelUniversity">Внести документ</button></a>
+			<a href="educational_work_archive"><button id="as" className="leftPanelUniversity">Архив документов</button></a>
+		</div>
+	);
+
+}
+
+export function LeftPanelOfDormitoriesWork() {
+	return(
+		<div className="bookmarks">
+			<a href="educational_work"><button id="vr" className="leftPanelUniversity">Документы</button></a> 
+			<a href="goals_of_educational_work"><button id="cvr" className="leftPanelUniversity">Внести документ</button></a>
+			<a href="educational_work_archive"><button id="as" className="leftPanelUniversity">Архив документов</button></a>
+		</div>
+	);
+
+}
+
 
 export function LeftPanelOfReportManager() {
 	return(

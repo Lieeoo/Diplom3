@@ -13,6 +13,9 @@ import ClassroomEditStudent from "../ui/ClassroomLayouts/ClassroomEditStudent"; 
 import ClassroomCreateStudent from "../ui/ClassroomLayouts/ClassroomCreateStudent"; // Новый ученик
 
 import EducationWorkPage from "../routes/EducationWorkPage"; // Воспитательная работа
+import ExtracurricularWork from "../routes/ExtracurricularWork"; // Внеучебная работа
+import MaterialWork from "../routes/MHPage"; // Работа с материальной помощью
+import DormitoriesWork from "../routes/DormitoriesPage"; // Работа с расселением в общежития
 import EducationWorkEdit from "../ui/EducationWorkLayouts/EducationWorkEdit"; // Редактирование воспитательного события
 import GoalsOfEducationalWork from "../ui/EducationWorkLayouts/GoalsOfEducationalWork"; // Цель воспитательной работы
 import EducationWorkArchive from "../ui/EducationWorkLayouts/EducationWorkArchive"; // Архив
@@ -20,6 +23,7 @@ import CreateEvent from "../ui/EducationWorkLayouts/EducationWorkCreateEvent"; /
 
 import ReportManagerPage1 from "../routes/ReportManagerPage"; // менеджер отчетов, вкладка 1
 import ReportManagerPage2 from "../ui/ReportManagerLayouts/ReportManagerClasses"; // менеджер отчетов, вкладка 2
+import UniversityReportPage from "../routes/UniversityReportPage"; // менеджер отчетов, вкладка 1
 
 import ControlPage from "../routes/ControlPage"; // Управление системой
 import ControlSystemEvents from "../ui/ControlSystemLayouts/ControlSystemEvents"; // Управление системой, воспитательный события
@@ -39,12 +43,16 @@ export default function AppRouter() {
                     <Route path="/classroom" exact element={<Classroom/>}/>
                     <Route path="/university" exact element={<University/>}/>
                     <Route path="/educational_work" exact element={<EducationWorkPage/>}/>
+                    <Route path="/extracurricular_work" exact element={<ExtracurricularWork/>}/>
+                    <Route path="/material_work" exact element={<MaterialWork/>}/>
+                    <Route path="/dormitories_work" exact element={<DormitoriesWork/>}/>
                     <Route path="/educational_work_edit" exact element={<EducationWorkEdit/>}/>
                     <Route path="/educational_work_archive" exact element={<EducationWorkArchive/>}/>
                     <Route path="/goals_of_educational_work" exact element={<GoalsOfEducationalWork/>}/>
                     <Route path="/classroom_edit_student" exact element={<ClassroomEditStudent/>}/>
                     <Route path="/report_manager_employment" exact element={<ReportManagerPage1/>}/>
                     <Route path="/report_manager_classes" exact element={<ReportManagerPage2/>}/>
+                    <Route path="/university_report_page" exact element={<UniversityReportPage/>}/>
                     <Route path="/control_users" exact element={<ControlPage/>}/>
                     <Route path="/control_events" exact element={<ControlSystemEvents/>}/>
                     <Route path="/control_classes" exact element={<ControlSystemClasses/>}/>

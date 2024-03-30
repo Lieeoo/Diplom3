@@ -15,9 +15,15 @@ export default async function AuthorizationUser (emailUser, passwordUser) {
     });
 
     let result = await response.json();
+    let role = "VUZ";
+    //let role = "neVUZ";
     if(response.status===200) {
         localStorage.setItem("token", result.token);
-        window.location.assign("profile"); }
+        if(role=="VUZ"){
+            window.location.assign("university");
+        }
+        else {window.location.assign("profile");}
+    }
     else { alert(result.message);}
 
 };
