@@ -1,6 +1,7 @@
 import '../../../ProjectCSS.css';
 import '../../../mavrCSS.css';
 import ReactDOM from 'react-dom';
+import React from 'react';
 
 import {TopPanelUniversity, LeftPanelOfReportManager} from "../../ui/NavigationPanels/NavigationPanels.jsx";
 import {OCl, OVR, OClNORM2} from "../../../See.js";
@@ -16,6 +17,24 @@ const element2 = <OVR />;
 let flag = false;
 
 function ReportManagerPage() {
+	const criteria = {
+		"Студент": ["Общее количество", "Количество студентов, которым оказывается материальная помощь", "Количество студентов, проживающих в общежитии"],
+		"Внеучебное событие": ["Общее количество", "Количество студентов, участвующих в событии", "Количество событий, начавшихся в определенный диапазон дат", "Количество событий, закончившихся в определенный диапазон дат", "Количество событий, продолжительность которых входит в определенный диапазон дат"],
+		// Добавьте остальные критерии и подкритерии аналогичным образом
+		};
+	const [selectedCriterion, setSelectedCriterion] = React.useState("");
+	const [subCriteria, setSubCriteria] = React.useState([]);
+	const handleCriterionChange = (event) => {
+        const selectedOptions = Array.from(event.target.selectedOptions).map(option => option.value);
+        setSelectedCriterion(selectedOptions);
+        // Обновляем подкритерии на основе выбранных критериев
+        let updatedSubCriteria = [];
+        selectedOptions.forEach(option => {
+            updatedSubCriteria = updatedSubCriteria.concat(criteria[option] || []);
+        });
+        setSubCriteria(updatedSubCriteria);
+    };
+
 	window.onload = function() {
 			document.getElementById('reportManagerEmploymentUniversity').className = "topbutton-page-university";
 			//enter();
@@ -38,6 +57,19 @@ function ReportManagerPage() {
 									<p className="text-main">
 										Составить отчеты: 
 										</p>
+								</div>
+								<div>
+								<select id="criteriaSelect" onChange={handleCriterionChange} className="listboxClass" multiple size="8">
+									<option value="">Выберите критерий</option>
+									{Object.keys(criteria).map(criterion => (
+										<option key={criterion} value={criterion}>{criterion}</option>
+									))}
+								</select>
+								<select id="subCriteriaSelect" className="listboxClass" multiple size="8">
+									{subCriteria.length > 0 ? subCriteria.map(subCriterion => (
+										<option key={subCriterion} value={subCriterion}>{subCriterion}</option>
+									)) : <option>Выберите критерий</option>}
+								</select>
 								</div>
 								<div>
 									<textarea id="docTextArea" name="freeform" rows="50" cols="50">
