@@ -18,22 +18,162 @@ let flag = false;
 
 function ReportManagerPage() {
 	const criteria = {
-		"Студент": ["Общее количество", "Количество студентов, которым оказывается материальная помощь", "Количество студентов, проживающих в общежитии"],
-		"Внеучебное событие": ["Общее количество", "Количество студентов, участвующих в событии", "Количество событий, начавшихся в определенный диапазон дат", "Количество событий, закончившихся в определенный диапазон дат", "Количество событий, продолжительность которых входит в определенный диапазон дат"],
-		// Добавьте остальные критерии и подкритерии аналогичным образом
+		"Студент": [
+			"Общее количество",
+			"Количество студентов, которым оказывается материальная помощь",
+			"Количество студентов, проживающих в общежитии"
+		],
+		"Внеучебное событие": [
+			"Общее количество",
+			"Количество студентов, участвующих в событии",
+			"Количество событий, начавшихся в определенный диапазон дат",
+			"Количество событий, закончившихся в определенный диапазон дат",
+			"Количество событий, продолжительность которых входит в определенный диапазон дат"
+		],
+		"Расселение в общежития": [
+			"Общее количество студентов, проживающих в общежитии",
+			"Количество договоров, действующих в диапазоне дат"
+		],
+		"Материальная помощь": [
+			"Общее количество студентов, которым оказывается материальная помощь",
+			"Количество договоров, действующих в диапазоне дат"
+		],
+		"Комната": [
+			"Общее количество комнат",
+			"Количество студентов, проживающих в комнате",
+			"Количество комнат с определенным количеством свободных мест",
+			"Количество комнат с определенным общим числом мест в комнате",
+			"Количество комнат, полностью занятых в определенный диапазон дат"
+		],
+		"Общежитие": [
+			"Общее количество комнат",
+			"Количество комнат с определенным общим числом мест в комнате",
+			"Количество комнат, полностью занятых в определенный диапазон дат"
+		],
+		"Группа": [
+			"Общее количество студентов в группе",
+			"Количество студентов, которым оказывается материальная помощь",
+			"Количество студентов, проживающих в общежитии"
+		],
+		"Факультет": [
+			"Общее количество студентов на факультете",
+			"Количество студентов, которым оказывается материальная помощь",
+			"Количество студентов, проживающих в общежитии"
+		]
 		};
 	const [selectedCriterion, setSelectedCriterion] = React.useState("");
 	const [subCriteria, setSubCriteria] = React.useState([]);
-	const handleCriterionChange = (event) => {
-        const selectedOptions = Array.from(event.target.selectedOptions).map(option => option.value);
-        setSelectedCriterion(selectedOptions);
-        // Обновляем подкритерии на основе выбранных критериев
-        let updatedSubCriteria = [];
-        selectedOptions.forEach(option => {
-            updatedSubCriteria = updatedSubCriteria.concat(criteria[option] || []);
-        });
-        setSubCriteria(updatedSubCriteria);
+	const [selectedSubCriterion, setSelectedSubCriterion] = React.useState([]);
+	const [isNumericValueEnabled, setIsNumericValueEnabled] = React.useState(false);
+	const [isTypeSelectEnabled, setIsTypeSelectEnabled] = React.useState(false);
+	const [numericValue, setNumericValue] = React.useState("");
+	const [todayDate] = React.useState(new Date().toISOString().slice(0, 10));
+
+	const [entries, setEntries] = React.useState([]);
+    const [startDate, setStartDate] = React.useState(new Date().toISOString().slice(0, 10));
+    const [endDate, setEndDate] = React.useState(new Date().toISOString().slice(0, 10));
+    const [selectedType, setSelectedType] = React.useState("количественный");
+    const [selectedIndexes, setSelectedIndexes] = React.useState([]);
+
+	/*document.addEventListener('DOMContentLoaded', function() {
+		document.getElementById("generate").addEventListener("click", () => generateWordDocument(entries), false);
+	});*/
+	
+
+	const handleAddEntry = () => {
+        const newEntry = {
+            Criteria: selectedSubCriterion.join(", "),
+            Number: isNumericValueEnabled ? numericValue : "",
+            DataOn: startDate,
+            DataOff: endDate,
+            Type: selectedType,
+            Place: entries.length + 1
+        };
+        setEntries(prevEntries => [...prevEntries, newEntry]);
+
+        // Сброс состояний
+        setSelectedCriterion("");
+        setSubCriteria([]);
+        setSelectedSubCriterion([]);
+        setIsNumericValueEnabled(false);
+        setNumericValue("");
+        setStartDate(new Date().toISOString().slice(0, 10));
+        setEndDate(new Date().toISOString().slice(0, 10));
+        setSelectedType("количественный");
+        setIsTypeSelectEnabled(false);
     };
+
+	const handleSelectChange = (event) => {
+        setSelectedIndexes([...event.target.selectedOptions].map(option => parseInt(option.value)));
+    };
+
+    const moveUp = () => {
+        if (selectedIndexes.length === 1 && selectedIndexes[0] > 0) {
+            const index = selectedIndexes[0];
+            setEntries(currentEntries => {
+                const newEntries = [...currentEntries];
+                [newEntries[index - 1], newEntries[index]] = [newEntries[index], newEntries[index - 1]];
+                return newEntries;
+            });
+        }
+    };
+
+    const moveDown = () => {
+        if (selectedIndexes.length === 1 && selectedIndexes[0] < entries.length - 1) {
+            const index = selectedIndexes[0];
+            setEntries(currentEntries => {
+                const newEntries = [...currentEntries];
+                [newEntries[index], newEntries[index + 1]] = [newEntries[index + 1], newEntries[index]];
+                return newEntries;
+            });
+        }
+    };
+
+	const removeSelected = () => {
+		// Удаление выбранных элементов
+		const newEntries = entries.filter((_, index) => !selectedIndexes.includes(index));
+		// Переназначение порядковых номеров
+		const updatedEntries = newEntries.map((entry, index) => ({
+			...entry,
+			Place: index + 1 // Новые порядковые номера начинаются с 1
+		}));
+		setEntries(updatedEntries);
+		setSelectedIndexes([]); // Сброс выбранных индексов
+	};
+
+    const testEntries = () => {
+        console.log(entries);
+    };
+
+
+	const handleCriterionChange = (event) => {
+        const value = event.target.value;
+        setSelectedCriterion(value);
+        setSubCriteria(criteria[value] || []);
+    };
+
+    const handleSubCriterionChange = (event) => {
+        const selectedOptions = Array.from(event.target.selectedOptions).map(option => option.value);
+        setSelectedSubCriterion(selectedOptions);
+
+        const enableNumericValue = selectedOptions.includes("Количество комнат с определенным количеством свободных мест");
+        setIsNumericValueEnabled(enableNumericValue);
+
+        const enableTypeSelect = selectedOptions.some(option =>
+            ["Количество студентов, участвующих в событии",
+             "Количество событий, начавшихся в определенный диапазон дат",
+             "Количество событий, закончившихся в определенный диапазон дат",
+             "Количество событий, продолжительность которых входит в определенный диапазон дат",
+             "Количество комнат с определенным количеством свободных мест",
+             "Количество студентов, которым оказывается материальная помощь",
+             "Количество студентов, проживающих в общежитии",
+             "Количество договоров, действующих в диапазоне дат",
+             "Количество комнат с определенным общим числом мест в комнате",
+             "Количество комнат, полностью занятых в определенный диапазон дат"].includes(option));
+        setIsTypeSelectEnabled(enableTypeSelect);
+    };
+
+    const isAddButtonDisabled = selectedSubCriterion.length === 0 || (isNumericValueEnabled && !numericValue);
 
 	window.onload = function() {
 			document.getElementById('reportManagerEmploymentUniversity').className = "topbutton-page-university";
@@ -58,25 +198,53 @@ function ReportManagerPage() {
 										Составить отчеты: 
 										</p>
 								</div>
-								<div>
-								<select id="criteriaSelect" onChange={handleCriterionChange} className="listboxClass" multiple size="8">
-									<option value="">Выберите критерий</option>
-									{Object.keys(criteria).map(criterion => (
-										<option key={criterion} value={criterion}>{criterion}</option>
-									))}
-								</select>
-								<select id="subCriteriaSelect" className="listboxClass" multiple size="8">
-									{subCriteria.length > 0 ? subCriteria.map(subCriterion => (
-										<option key={subCriterion} value={subCriterion}>{subCriterion}</option>
-									)) : <option>Выберите критерий</option>}
-								</select>
+								<div className="select-container">
+									<select id="criteriaSelect" onChange={handleCriterionChange} className="listboxClass" multiple size="8">
+										<option value="">Выберите критерий</option>
+										{Object.keys(criteria).map(criterion => (
+											<option key={criterion} value={criterion}>{criterion}</option>
+										))}
+									</select>
+									<select id="subCriteriaSelect" onChange={handleSubCriterionChange} className="listboxClass" multiple size="8">
+										{subCriteria.map(subCriterion => (
+											<option key={subCriterion} value={subCriterion}>{subCriterion}</option>
+										))}
+									</select>
+									<div className="input-container">
+										<label>
+											Числовое значение:
+											<input type="number" id="numericValue" value={numericValue} onChange={(e) => setNumericValue(e.target.value)} disabled={!isNumericValueEnabled} />
+										</label>
+										<div className="date-container">
+											<label>
+												Дата начала:
+												<input type="date" id="startDate" defaultValue={todayDate} />
+											</label>
+											<label>
+												Дата окончания:
+												<input type="date" id="endDate" defaultValue={todayDate} />
+											</label>
+										</div>
+									</div>
+									<button onClick={handleAddEntry} disabled={!selectedSubCriterion.length || (isNumericValueEnabled && !numericValue)}>Добавить</button>
+								</div>
+								<div className="select-container-right">
+									<button onClick={moveUp} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === 0}>Вверх</button>
+									<button onClick={moveDown} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === entries.length - 1}>Вниз</button>
+									<select multiple size="10" onChange={handleSelectChange} value={selectedIndexes}>
+										{entries.map((entry, index) => (
+											<option key={index} value={index}>{entry.Criteria}</option>
+										))}
+									</select>
+									<button onClick={removeSelected} disabled={selectedIndexes.length === 0}>Убрать</button>
+									<button onClick={testEntries}>Test</button>
 								</div>
 								<div>
-									<textarea id="docTextArea" name="freeform" rows="50" cols="50">
+									<textarea id="docTextArea" name="freeform" rows="10" cols="50">
 									</textarea>
 								</div>
 								<div>
-									<button id="generate">Generate Word Document</button>
+									<button onClick={() => generateWordDocument(entries)}>Generate Word Document</button>
 								</div>
 								<div className="text-info">
 									<p className="text-main"> 
@@ -97,9 +265,9 @@ function ReportManagerPage() {
   );	
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+/*document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("generate").addEventListener("click", generateWordDocument, false);
-});
+});*/
 
 async function countNonEmptyLinesAndNewlines() {
     const text = document.getElementById('docTextArea').value;
@@ -112,7 +280,6 @@ async function countNonEmptyLinesAndNewlines() {
 		nonEmptyLinesText: []
     };
 
-    // Переменная для подсчета переносов строк после непустой строки
     // Переменная для подсчета переносов строк после непустой строки
     let newlineCount = 1;
     
@@ -143,12 +310,25 @@ async function countNonEmptyLinesAndNewlines() {
 }
 
 
-async function generateWordDocument() {
+async function generateWordDocument(entries) {
     const text = document.getElementById('docTextArea').value;
-    const lines = text.split('\n');
+    const lines = text.split('\n'); // Разбиваем текст на строки для обработки по абзацам
+
+    const entriesJson = JSON.stringify(entries, null, 2); // Сериализация данных JSON с отступами для лучшего восприятия
+	alert(entriesJson);
+
+    // Создаем массив параграфов на основе JSON
+    const jsonParagraphs = entriesJson.split('\n').map(line => new Paragraph({
+        children: [
+            new TextRun({
+                text: line,
+                bold: true
+            })
+        ]
+    }));
 
     // Создаем массив параграфов на основе введенного текста
-    const paragraphs = lines.map(line => {
+    const textParagraphs = lines.map(line => {
         if (line.trim() === '') {
             // Для пустой строки добавляем параграф без текста, чтобы сохранить перенос
             return new Paragraph('');
@@ -161,6 +341,9 @@ async function generateWordDocument() {
             });
         }
     });
+
+    // Объединение массивов параграфов JSON и текста в один массив
+    const paragraphs = [...jsonParagraphs, new Paragraph({ text: '' }), ...textParagraphs];
 
     // Создание нового документа с учетом параграфов
     const doc = new Document({

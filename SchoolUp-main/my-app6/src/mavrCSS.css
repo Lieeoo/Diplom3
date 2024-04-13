@@ -648,4 +648,29 @@
 	padding: 2vh;
 }
 
+/*Отчеты внеучебная работа*/
+
+.select-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Отступ между элементами */
+}
+
+.input-container {
+    display: flex;
+	justify-content: center;
+    flex-direction: row;
+    gap: 10px; /* Отступ между полями ввода */
+}
+
+.date-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Отступ между датами */
+}
+
+.label-input {
+    margin-bottom: 10px; /* Дополнительный отступ снизу каждого label */
+}
+
 /* Прочее */
