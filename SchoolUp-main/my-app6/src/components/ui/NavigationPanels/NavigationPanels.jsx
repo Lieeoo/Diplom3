@@ -22,12 +22,9 @@ export function TopPanelUniversity() {
 				<a href="university_report_page"> 
 					<button id="reportManagerEmploymentUniversity" className="topbuttonUniversity"> Менеджер отчётов </button> 
 				</a>
-				{localStorage.getItem("userRole")=="ADMIN" && <div>
-					<a href="control_users_university"> 
-						<button id="controlUsersUniversity" className="topbuttonUniversity"> Управление системой </button> 
-					</a>
-				</div>}
-				
+				<a href="control_users_university"> 
+					<button id="controlUsersUniversity" className="topbuttonUniversity"> Управление системой </button> 
+				</a>
 				<a href="profile">
 					<button id="prped" className="topbuttonUniversity"> Профиль </button> 
 				</a>

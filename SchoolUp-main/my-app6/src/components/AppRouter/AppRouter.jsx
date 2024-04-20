@@ -25,6 +25,8 @@ import ReportManagerPage1 from "../routes/ReportManagerPage"; // менедже�
 import ReportManagerPage2 from "../ui/ReportManagerLayouts/ReportManagerClasses"; // менеджер отчетов, вкладка 2
 import UniversityReportPage from "../routes/UniversityReportPage"; // менеджер отчетов, вкладка 1
 
+import UniversityControlPage from "../routes/UniversityControlPage"; // управление системой (ВУЗ)
+
 import ControlPage from "../routes/ControlPage"; // Управление системой
 import ControlSystemEvents from "../ui/ControlSystemLayouts/ControlSystemEvents"; // Управление системой, воспитательный события
 import ControlSystemClasses from "../ui/ControlSystemLayouts/ControlSystemClasses"; // Управление системой, классы
@@ -53,6 +55,7 @@ export default function AppRouter() {
                     <Route path="/report_manager_employment" exact element={<ReportManagerPage1/>}/>
                     <Route path="/report_manager_classes" exact element={<ReportManagerPage2/>}/>
                     <Route path="/university_report_page" exact element={<UniversityReportPage/>}/>
+                    <Route path="/control_users_university" exact element={<UniversityControlPage/>}/>
                     <Route path="/control_users" exact element={<ControlPage/>}/>
                     <Route path="/control_events" exact element={<ControlSystemEvents/>}/>
                     <Route path="/control_classes" exact element={<ControlSystemClasses/>}/>

@@ -176,7 +176,7 @@ function ReportManagerPage() {
     const isAddButtonDisabled = selectedSubCriterion.length === 0 || (isNumericValueEnabled && !numericValue);
 
 	window.onload = function() {
-			document.getElementById('reportManagerEmploymentUniversity').className = "topbutton-page-university";
+			document.getElementById('controlUsersUniversity').className = "topbutton-page-university";
 			//enter();
 		};
 	return (
