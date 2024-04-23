@@ -13,6 +13,15 @@ lname:{type: DataTypes.STRING, defaultValue: "безымянов"},
 mname:{type: DataTypes.STRING, defaultValue: "безымянович"},
 comm:{type: DataTypes.STRING, defaultValue: "безымянович"},
 }) 
+const Role = sequelize.define('role',{
+   id:{type: DataTypes.INTEGER, primaryKey:true, autoIncrement: true},
+   name: {type: DataTypes.STRING, defaultValue: "безымянный"},
+
+   comm:{type: DataTypes.STRING, defaultValue: "неизвестно"},
+}) 
+
+
+
 
 const Student = sequelize.define('Student', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},//просто айди ученика
@@ -169,10 +178,27 @@ const Class = sequelize.define('Class',{
          Rector_order:{type: DataTypes.STRING, allowNull: false, defaultValue: "отсутствует"},
          }) 
 
-      
+      const Form_Otchet= sequelize.define('Form_Otchet',{
+         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},//айди класса что очевидно  
+         name: {type: DataTypes.STRING,allowNull: false, defaultValue: "безымянный"},
+         idFormVosp: {type: DataTypes.INTEGER}
+
+      })
+
+      const Module_form= sequelize.define('Module_form',{
+         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},//айди класса что очевидно  
+         text: {type: DataTypes.STRING,allowNull: false, defaultValue: "безымянный"},
+         
+      })
 
 
 //-------------------------------ПРОМЕЖУТОЧНЫЕ ТАБЛИЦЫ СВЯЗИ МНОГИЕ КО МНОГИМ---------------------------------------------------------------------------
+const module_to_form = sequelize.define('module_to_form', {
+   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+   test:{type: DataTypes.INTEGER},
+  // event_id:{type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+})
+
 const formorab_Napravl = sequelize.define('formorab_Napravl', {
    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
    test:{type: DataTypes.INTEGER},
@@ -231,6 +257,18 @@ const Class_Event = sequelize.define('Class_Event', {
      // event_id:{type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   })
 
+  const  User_Role = sequelize.define('User_role', {
+   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+   test:{type: DataTypes.INTEGER},
+  // event_id:{type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+})
+
+const  Role_Otchet = sequelize.define('User_role', {
+   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+   test:{type: DataTypes.INTEGER},
+  // event_id:{type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+})
+
 //--------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------
@@ -263,6 +301,8 @@ Event.belongsToMany(Student, {through: Student_Event })//бренду прина
 Class.belongsToMany(User, {through: Student_Event })//типу принадлежит много брендов
 User.belongsToMany(Class, {through: Student_Event })//бренду принадлежит много типов
 
+User.belongsToMany(Role, {through: User_Role })//юзеру принадлежит много ролей
+Role.belongsToMany(User, {through: User_Role })//роли принадлежит много юзеров
 
 Napravlenie.belongsToMany(Event, {through: Event_napravl })//типу принадлежит много брендов
 Event.belongsToMany(Napravlenie, {through: Event_napravl })//бренду принадлежит много типов
@@ -293,6 +333,12 @@ Class.belongsToMany(Event, {through: Class_Event })//бренду принадл
 FormOfVospRab.belongsToMany(Napravlenie, {through: formorab_Napravl })//дополнительному образованию принадлежит карточка направления, и возможно не одна
 Napravlenie.belongsToMany(FormOfVospRab, {through: formorab_Napravl })//
 
+Form_Otchet.belongsToMany(Module_form, {through: formorab_Napravl })//дополнительному образованию принадлежит карточка направления, и возможно не одна
+Module_form.belongsToMany(Form_Otchet, {through: formorab_Napravl })//
+
+Form_Otchet.belongsToMany(Role, {through: formorab_Napravl })//дополнительному образованию принадлежит карточка направления, и возможно не одна
+Role.belongsToMany(Form_Otchet, {through: formorab_Napravl })//
+
 //-----------------------------------------------------------------------------
 
 
@@ -315,4 +361,11 @@ module.exports = {
     Plan_Of_Class,
     Task,
     Res_Agr,
+    Room,
+    Dormitory,
+    Contract_to_agreement,
+    Form_Otchet,
+    Module_form,
+
+
 }
