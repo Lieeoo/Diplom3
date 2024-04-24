@@ -8,6 +8,7 @@ import {OCl, OVR, OClNORM2} from "../../../See.js";
 import { Document, Packer, Paragraph, TextRun } from 'docx';
 import {convertToHtml} from "mammoth/mammoth.browser";
 import { PDFDocument, rgb } from 'pdf-lib';
+import ExcelJS from 'exceljs';
 
 let port_reg_cl = "http://localhost:5500/API/class/";
 let port_find_students = "http://localhost:5500/API/student/:id";
@@ -360,6 +361,26 @@ async function generateWordDocument(entries) {
     // Генерация Blob из документа и его скачивание
     const blob = await Packer.toBlob(doc);
     saveDocument(blob, "Отчет.docx");
+
+	// Генерация Excel файла
+	const workbook = new ExcelJS.Workbook();
+	const worksheet = workbook.addWorksheet("Numbers");
+
+	// Добавление данных в Excel
+	const numbersInWords = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+	numbersInWords.forEach((item, index) => {
+		worksheet.addRow([item]);
+	});
+
+	// Настройка заголовков
+	worksheet.getRow(1).font = { bold: true };
+
+	// Сохранение в Blob и инициация скачивания
+	const buffer = await workbook.xlsx.writeBuffer();
+	const blob2 = new Blob([buffer], {
+		type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+	});
+	saveDocument(blob2, "numbers.xlsx");
 }
 
 function saveDocument(blob, fileName) {
