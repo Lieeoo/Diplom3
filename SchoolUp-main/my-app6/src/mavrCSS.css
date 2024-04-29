@@ -363,32 +363,23 @@
 	
 	font-size: 2vh;
 	text-align: center;
-	
 }
 .mark-page{
 	background: #8ccba1;
 	border-radius: 1vh;
 	border: 0.25vh solid #8ccba1;
-	
 	font-size: 2vh;
-
 	width:18.3vh;
-	
-	
 }
 .leftPanel{
 	font-size: 2vh;
 	background: #bcf3bd;
 	width:19.4vh;
 	position: relative;
-	
 	margin-top: 1vh;
 	margin-bottom: 1vh;
-	
 	padding: 0.5vh;
-	
 	text-align: center;
-	
 	border-radius: 2vh;
 	border: 0.5vh solid #8ccba1;
 }
@@ -397,12 +388,9 @@
 	background: #4e4e7e;
 	width:19.4vh;
 	position: relative;
-	
 	margin-top: 1vh;
 	margin-bottom: 1vh;
-	
 	padding: 0.5vh;
-	
 	text-align: center;
 	color:#f2f2ff;
 	border: 0.5vh solid #4e4e7e;
@@ -548,14 +536,10 @@
 .family_student{
 	border-radius: 2vh;
 	border: 0.2vh solid #495b87;
-	
 	margin-left: 2vh;
 	margin-right: 2vh;
-	
 	padding: 2vh;
-	
 }
-
 /* Классное руководство: редактирование ученика */
 .student_edit-space{
 	border-radius: 3vh;
@@ -623,13 +607,16 @@
 
 /* Отчеты */
 .report-space{
-	
 	display:flex;
 	flex-direction: column;
-	
 	padding: 2vh;
-	
 	width: 100vh;
+}
+.report-space-university{
+	display:flex;
+	flex-direction: column;
+	padding: 2vh;
+	width: 130vh;
 }
 .report-bar{
 	margin: 1vh 0 1vh 0;
@@ -655,7 +642,7 @@
 .select-container {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Отступ между элементами */
+    gap: 20px; /* Отступ между элементами */
 }
 
 .input-container {
@@ -676,3 +663,42 @@
 }
 
 /* Прочее */
+.block-horizontal-flex{
+	display: inline-flex; 
+    align-items: center; 
+    flex-wrap: nowrap;
+	justify-content: space-evenly;
+    width: 100%; 
+}
+.block-vertical-flex{
+	display: inline-flex; 
+	flex-direction: column;
+    align-items: center; 
+    flex-wrap: nowrap;
+	justify-content: space-evenly;
+}
+.block-vertical-flex-report-parameters{
+	display: inline-flex; 
+	flex-direction: column;
+    align-items: right; 
+    flex-wrap: nowrap;
+	justify-content: space-evenly;
+}
+.block-horizontal-flex-report-right{
+	display: inline-flex; 
+    align-items: right; 
+    flex-wrap: nowrap;
+}
+.block-vertical-flex-report-parameters > * {
+    margin-top: 10px;    /* Отступ сверху */
+    margin-bottom: 10px; /* Отступ снизу */
+}
+.block-margin{
+	width: 25vh;
+}
+.listboxClass-criteria{
+	width: 25vh;
+}
+.listboxClass-undercriteria{
+	width: 70vh;
+}

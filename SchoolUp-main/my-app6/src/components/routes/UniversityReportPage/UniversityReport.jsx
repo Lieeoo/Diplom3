@@ -20,61 +20,77 @@ let flag = false;
 function ReportManagerPage() {
 	const criteria = {
 		"Студент": [
-			"Общее количество",
+			"Общее количество студентов",
 			"Количество студентов, которым оказывается материальная помощь",
 			"Количество студентов, проживающих в общежитии"
 		],
 		"Внеучебное событие": [
-			"Общее количество",
-			"Количество студентов, участвующих в событии",
-			"Количество событий, начавшихся в определенный диапазон дат",
-			"Количество событий, закончившихся в определенный диапазон дат",
-			"Количество событий, продолжительность которых входит в определенный диапазон дат"
+			"Общее количество событий",
+			"Количество студентов, участвующих в событии"
 		],
 		"Расселение в общежития": [
-			"Общее количество студентов, проживающих в общежитии",
-			"Количество договоров, действующих в диапазоне дат"
+			"Общее количество студентов, проживающих в общежитиях"
 		],
 		"Материальная помощь": [
-			"Общее количество студентов, которым оказывается материальная помощь",
-			"Количество договоров, действующих в диапазоне дат"
-		],
-		"Комната": [
-			"Общее количество комнат",
-			"Количество студентов, проживающих в комнате",
-			"Количество комнат с определенным количеством свободных мест",
-			"Количество комнат с определенным общим числом мест в комнате",
-			"Количество комнат, полностью занятых в определенный диапазон дат"
+			"Общее количество студентов, которым оказывается материальная помощь"
 		],
 		"Общежитие": [
-			"Общее количество комнат",
-			"Количество комнат с определенным общим числом мест в комнате",
-			"Количество комнат, полностью занятых в определенный диапазон дат"
-		],
-		"Группа": [
-			"Общее количество студентов в группе",
-			"Количество студентов, которым оказывается материальная помощь",
-			"Количество студентов, проживающих в общежитии"
+			"Общее количество студентов, проживающих в общежитии",
+			"Общее количество комнат в общежитии",
+			"Количество комнат с определенным числом свободных мест",
+			"Количество комнат с определенным общим числом мест в комнате"
 		],
 		"Факультет": [
 			"Общее количество студентов на факультете",
-			"Количество студентов, которым оказывается материальная помощь",
-			"Количество студентов, проживающих в общежитии"
+			"Количество студентов, проживающих в общежитии",
+			"Количество студентов, которым оказывается материальная помощь"
+		],
+		"Группа": [
+			"Общее количество студентов в группе",
+			"Количество студентов, проживающих в общежитии",
+			"Количество студентов, которым оказывается материальная помощь"
 		]
 		};
+	const dormitories = [
+		"",
+		"Cтуденческий жилой комплекс «Парус» (№ 9)",
+		"Студенческий жилой комплекс «Маяк»",
+		"Общежитие №5",
+		"Общежитие №6",
+		"Общежитие №3",
+		"Общежитие №7",
+		"Общежитие №8"
+	];
+	const events = ["", "Студенческая весна, 22.03.23"];
+	const faculties = ["", "Институт прикладной математики и компьютерных наук"];
+	const groups = ["", "932209", "932210", "932211"];
+	const samples = [
+		"Шаблон 1",
+		"Шаблон 2",
+		"Шаблон 3"
+	];
 	const [selectedCriterion, setSelectedCriterion] = React.useState("");
 	const [subCriteria, setSubCriteria] = React.useState([]);
 	const [selectedSubCriterion, setSelectedSubCriterion] = React.useState([]);
+	const [selectedEvent, setSelectedEvent] = React.useState("");
+	const [isEventSelectEnabled, setIsEventSelectEnabled] = React.useState(false);
 	const [isNumericValueEnabled, setIsNumericValueEnabled] = React.useState(false);
 	const [isTypeSelectEnabled, setIsTypeSelectEnabled] = React.useState(false);
 	const [numericValue, setNumericValue] = React.useState("");
+	const [selectedDormitory, setSelectedDormitory] = React.useState("");
+	const [isDormitorySelectEnabled, setIsDormitorySelectEnabled] = React.useState(false);
+	const [selectedFaculty, setSelectedFaculty] = React.useState("");
+	const [isFacultySelectEnabled, setIsFacultySelectEnabled] = React.useState(false);
+	const [selectedGroup, setSelectedGroup] = React.useState("");
+	const [isGroupSelectEnabled, setIsGroupSelectEnabled] = React.useState(false);
 	const [todayDate] = React.useState(new Date().toISOString().slice(0, 10));
-
 	const [entries, setEntries] = React.useState([]);
     const [startDate, setStartDate] = React.useState(new Date().toISOString().slice(0, 10));
     const [endDate, setEndDate] = React.useState(new Date().toISOString().slice(0, 10));
     const [selectedType, setSelectedType] = React.useState("количественный");
     const [selectedIndexes, setSelectedIndexes] = React.useState([]);
+	const [selectedSample, setSelectedSample] = React.useState("");
+	const [isSampleSelectEnabled, setIsSampleSelectEnabled] = React.useState(true); // предполагаем, что селектор изначально активен
 
 	/*document.addEventListener('DOMContentLoaded', function() {
 		document.getElementById("generate").addEventListener("click", () => generateWordDocument(entries), false);
@@ -157,21 +173,39 @@ function ReportManagerPage() {
         const selectedOptions = Array.from(event.target.selectedOptions).map(option => option.value);
         setSelectedSubCriterion(selectedOptions);
 
-        const enableNumericValue = selectedOptions.includes("Количество комнат с определенным количеством свободных мест");
-        setIsNumericValueEnabled(enableNumericValue);
+		setNumericValue("");
+		setSelectedEvent("");
+		setSelectedDormitory("");
+		setSelectedFaculty("");
+		setSelectedGroup("");
 
-        const enableTypeSelect = selectedOptions.some(option =>
-            ["Количество студентов, участвующих в событии",
-             "Количество событий, начавшихся в определенный диапазон дат",
-             "Количество событий, закончившихся в определенный диапазон дат",
-             "Количество событий, продолжительность которых входит в определенный диапазон дат",
-             "Количество комнат с определенным количеством свободных мест",
-             "Количество студентов, которым оказывается материальная помощь",
-             "Количество студентов, проживающих в общежитии",
-             "Количество договоров, действующих в диапазоне дат",
-             "Количество комнат с определенным общим числом мест в комнате",
-             "Количество комнат, полностью занятых в определенный диапазон дат"].includes(option));
-        setIsTypeSelectEnabled(enableTypeSelect);
+        const enableNumericValue = selectedOptions.some(option =>
+			["Количество комнат с определенным числом свободных мест",
+			 "Количество комнат с определенным общим числом мест в комнате"].includes(option));
+		setIsNumericValueEnabled(enableNumericValue);
+
+		const enableEventSelect = selectedOptions.includes("Количество студентов, участвующих в событии");
+		setIsEventSelectEnabled(enableEventSelect);
+
+		const enableDormitorySelect = selectedOptions.some(option =>
+			["Общее количество студентов, проживающих в общежитии",
+			"Общее количество комнат в общежитии",
+			"Количество комнат с определенным числом свободных мест",
+			"Количество комнат с определенным общим числом мест в комнате"].includes(option));
+		setIsDormitorySelectEnabled(enableDormitorySelect);
+	
+		const enableFacultySelect = selectedOptions.some(option =>
+			["Общее количество студентов на факультете",
+			"Количество студентов, проживающих в общежитии",
+			"Количество студентов, которым оказывается материальная помощь"].includes(option));
+		setIsFacultySelectEnabled(enableFacultySelect);
+	
+		const enableGroupSelect = selectedOptions.some(option =>
+			["Общее количество студентов в группе",
+			"Количество студентов, проживающих в общежитии",
+			"Количество студентов, которым оказывается материальная помощь"].includes(option));
+		setIsGroupSelectEnabled(enableGroupSelect);
+
     };
 
     const isAddButtonDisabled = selectedSubCriterion.length === 0 || (isNumericValueEnabled && !numericValue);
@@ -184,7 +218,6 @@ function ReportManagerPage() {
 		<div className="pageUniversity">
 			< TopPanelUniversity />
 			<div className="mavr">
-					<LeftPanelOfReportManager/>
 					<div className="workspace">
 						<div id="myModal" class="modal">
 							<div class="modal-content">
@@ -192,7 +225,7 @@ function ReportManagerPage() {
 								<div id="docContent"></div>
 							</div>
 						</div>
-						<div className="report-space">
+						<div className="report-space-university">
 							<div>
 								<div className="text-info"> 
 									<p className="text-main">
@@ -200,53 +233,99 @@ function ReportManagerPage() {
 										</p>
 								</div>
 								<div className="select-container">
-									<select id="criteriaSelect" onChange={handleCriterionChange} className="listboxClass" multiple size="8">
-										<option value="">Выберите критерий</option>
-										{Object.keys(criteria).map(criterion => (
-											<option key={criterion} value={criterion}>{criterion}</option>
-										))}
-									</select>
-									<select id="subCriteriaSelect" onChange={handleSubCriterionChange} className="listboxClass" multiple size="8">
-										{subCriteria.map(subCriterion => (
-											<option key={subCriterion} value={subCriterion}>{subCriterion}</option>
-										))}
-									</select>
-									<div className="input-container">
-										<label>
-											Числовое значение:
-											<input type="number" id="numericValue" value={numericValue} onChange={(e) => setNumericValue(e.target.value)} disabled={!isNumericValueEnabled} />
-										</label>
+									<div className="block-horizontal-flex">
+										<select id="criteriaSelect" onChange={handleCriterionChange} className="listboxClass-criteria" multiple size="8">
+											{Object.keys(criteria).map(criterion => (
+												<option key={criterion} value={criterion}>{criterion}</option>
+											))}
+										</select>
+										<select id="subCriteriaSelect" onChange={handleSubCriterionChange} className="listboxClass-undercriteria" multiple size="4">
+											{subCriteria.map(subCriterion => (
+												<option key={subCriterion} value={subCriterion}>{subCriterion}</option>
+											))}
+										</select>
+									</div>
+									<div className="block-horizontal-flex">
 										<div className="date-container">
-											<label>
+											<label className="block-vertical-flex">
 												Дата начала:
 												<input type="date" id="startDate" defaultValue={todayDate} />
 											</label>
-											<label>
+											<label className="block-vertical-flex">
 												Дата окончания:
 												<input type="date" id="endDate" defaultValue={todayDate} />
 											</label>
 										</div>
+										<div className="block-vertical-flex-report-parameters">
+											<label className="block-horizontal-flex-report-right">
+												Число мест:
+												<input type="number" id="numericValue" value={numericValue} onChange={(e) => setNumericValue(e.target.value)} disabled={!isNumericValueEnabled} />
+											</label>
+											<label className="block-horizontal-flex-report-right">
+												Событие:
+												<select id="eventSelect"  onChange={(e) => setSelectedEvent(e.target.value)} className="listboxClass" disabled={!isEventSelectEnabled}>
+													{events.map(event => (
+														<option key={event} value={event}>{event}</option>
+													))}
+												</select>
+											</label>
+											<label className="block-horizontal-flex-report-right">
+												Общежитие:
+												<select id="dormitorySelect"  onChange={(e) => setSelectedDormitory(e.target.value)} className="listboxClass" disabled={!isDormitorySelectEnabled}>
+													{dormitories.map(dormitory => (
+														<option key={dormitory} value={dormitory}>{dormitory}</option>
+													))}
+												</select>
+												</label>
+											<label className="block-horizontal-flex-report-right">
+												Факультет:
+												<select id="facultySelect" onChange={(e) => setSelectedFaculty(e.target.value)} className="listboxClass" disabled={!isFacultySelectEnabled}>
+													{faculties.map(faculty => (
+														<option key={faculty} value={faculty}>{faculty}</option>
+													))}
+												</select>
+											</label>
+											<label className="block-horizontal-flex-report-right">
+												Группа:
+												<select id="groupSelect" onChange={(e) => setSelectedGroup(e.target.value)} className="listboxClass" disabled={!isGroupSelectEnabled}>
+													{groups.map(group => (
+														<option key={group} value={group}>{group}</option>
+													))}
+												</select>
+											</label>
+										</div>
 									</div>
-									<button onClick={handleAddEntry} disabled={!selectedSubCriterion.length || (isNumericValueEnabled && !numericValue)}>Добавить</button>
-								</div>
-								<div className="select-container-right">
-									<button onClick={moveUp} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === 0}>Вверх</button>
-									<button onClick={moveDown} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === entries.length - 1}>Вниз</button>
-									<select multiple size="10" onChange={handleSelectChange} value={selectedIndexes}>
-										{entries.map((entry, index) => (
-											<option key={index} value={index}>{entry.Criteria}</option>
-										))}
-									</select>
-									<button onClick={removeSelected} disabled={selectedIndexes.length === 0}>Убрать</button>
-									<button onClick={testEntries}>Test</button>
-								</div>
-								<div>
+									<div className="block-horizontal-flex">
+										<button onClick={handleAddEntry} disabled={!selectedSubCriterion.length || (isNumericValueEnabled && !numericValue)}>Добавить</button>
+									</div>
+									<div className="select-container-right">
+										<button onClick={moveUp} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === 0}>Вверх</button>
+										<button onClick={moveDown} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === entries.length - 1}>Вниз</button>
+										<select multiple size="8" onChange={handleSelectChange} value={selectedIndexes}>
+											{entries.map((entry, index) => (
+												<option key={index} value={index}>{entry.Criteria}</option>
+											))}
+										</select>
+										<button onClick={removeSelected} disabled={selectedIndexes.length === 0}>Убрать</button>
+										<button onClick={testEntries}>Test</button>
+									</div>
+									<div className="block-horizontal-flex">
+										<select id="SampleSelect" onChange={(e) => setSelectedSample(e.target.value)} className="listboxClass">
+											{samples.map(type => (
+												<option key={type} value={type}>{type}</option>
+											))}
+										</select>
+									</div>
+									<div>
+										<button onClick={() => generateWordDocument(entries)}>Составить отчет</button>
+									</div>
+									<div>
 									<textarea id="docTextArea" name="freeform" rows="10" cols="50">
 									</textarea>
 								</div>
-								<div>
-									<button onClick={() => generateWordDocument(entries)}>Generate Word Document</button>
 								</div>
+								
+								
 								<div className="text-info">
 									<p className="text-main"> 
 										Класс:
