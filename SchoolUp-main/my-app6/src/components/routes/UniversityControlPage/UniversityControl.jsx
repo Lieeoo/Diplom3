@@ -1,13 +1,14 @@
 import '../../../ProjectCSS.css';
 import '../../../mavrCSS.css';
 import ReactDOM from 'react-dom';
-import React from 'react';
+import React, { useState } from 'react';
 
-import {TopPanelUniversity, LeftPanelOfReportManager} from "../../ui/NavigationPanels/NavigationPanels.jsx";
+import {TopPanelUniversity, LeftPanelOfReportManagerUniversity} from "../../ui/NavigationPanels/NavigationPanels.jsx";
 import {OCl, OVR, OClNORM2} from "../../../See.js";
-import { Document, Packer, Paragraph, TextRun } from 'docx';
+import { Document, Packer, Paragraph, TextRun, AlignmentType } from 'docx';
 import {convertToHtml} from "mammoth/mammoth.browser";
 import { PDFDocument, rgb } from 'pdf-lib';
+import ExcelJS from 'exceljs';
 
 let port_reg_cl = "http://localhost:5500/API/class/";
 let port_find_students = "http://localhost:5500/API/student/:id";
@@ -19,61 +20,87 @@ let flag = false;
 function ReportManagerPage() {
 	const criteria = {
 		"Студент": [
-			"Общее количество",
+			"Общее количество студентов",
 			"Количество студентов, которым оказывается материальная помощь",
 			"Количество студентов, проживающих в общежитии"
 		],
 		"Внеучебное событие": [
-			"Общее количество",
-			"Количество студентов, участвующих в событии",
-			"Количество событий, начавшихся в определенный диапазон дат",
-			"Количество событий, закончившихся в определенный диапазон дат",
-			"Количество событий, продолжительность которых входит в определенный диапазон дат"
+			"Общее количество событий",
+			"Количество студентов, участвующих в событии"
 		],
 		"Расселение в общежития": [
-			"Общее количество студентов, проживающих в общежитии",
-			"Количество договоров, действующих в диапазоне дат"
+			"Общее количество студентов, проживающих в общежитиях"
 		],
 		"Материальная помощь": [
-			"Общее количество студентов, которым оказывается материальная помощь",
-			"Количество договоров, действующих в диапазоне дат"
-		],
-		"Комната": [
-			"Общее количество комнат",
-			"Количество студентов, проживающих в комнате",
-			"Количество комнат с определенным количеством свободных мест",
-			"Количество комнат с определенным общим числом мест в комнате",
-			"Количество комнат, полностью занятых в определенный диапазон дат"
+			"Общее количество студентов, которым оказывается материальная помощь"
 		],
 		"Общежитие": [
-			"Общее количество комнат",
-			"Количество комнат с определенным общим числом мест в комнате",
-			"Количество комнат, полностью занятых в определенный диапазон дат"
-		],
-		"Группа": [
-			"Общее количество студентов в группе",
-			"Количество студентов, которым оказывается материальная помощь",
-			"Количество студентов, проживающих в общежитии"
+			"Общее количество студентов, проживающих в общежитии",
+			"Общее количество комнат в общежитии",
+			"Количество комнат с определенным числом свободных мест",
+			"Количество комнат с определенным общим числом мест в комнате"
 		],
 		"Факультет": [
 			"Общее количество студентов на факультете",
-			"Количество студентов, которым оказывается материальная помощь",
-			"Количество студентов, проживающих в общежитии"
+			"Количество студентов, проживающих в общежитии",
+			"Количество студентов, которым оказывается материальная помощь"
+		],
+		"Группа": [
+			"Общее количество студентов в группе",
+			"Количество студентов, проживающих в общежитии",
+			"Количество студентов, которым оказывается материальная помощь"
 		]
 		};
+	const dormitories = [
+		"",
+		"Cтуденческий жилой комплекс «Парус» (№ 9)",
+		"Студенческий жилой комплекс «Маяк»",
+		"Общежитие №5",
+		"Общежитие №6",
+		"Общежитие №3",
+		"Общежитие №7",
+		"Общежитие №8"
+	];
+	const events = ["", "Студенческая весна, 22.03.23"];
+	const faculties = ["", "Институт прикладной математики и компьютерных наук"];
+	const groups = ["", "932209", "932210", "932211"];
+	const samples = [
+		"Шаблон 1",
+		"Шаблон 2",
+		"Шаблон 3"
+	];
+	const blocks = [
+		"Приказ",
+		"Томск, 2024"
+	];
+	const [fontSize, setFontSize] = useState(12);
+	const [blockName, setBlockName] = useState("");
+	const fonts = ["Times New Roman", "Calibri", "Arial"];
+	const styles = ["Regular", "Bold"];
 	const [selectedCriterion, setSelectedCriterion] = React.useState("");
 	const [subCriteria, setSubCriteria] = React.useState([]);
 	const [selectedSubCriterion, setSelectedSubCriterion] = React.useState([]);
+	const [selectedEvent, setSelectedEvent] = React.useState("");
+	const [isEventSelectEnabled, setIsEventSelectEnabled] = React.useState(false);
 	const [isNumericValueEnabled, setIsNumericValueEnabled] = React.useState(false);
 	const [isTypeSelectEnabled, setIsTypeSelectEnabled] = React.useState(false);
 	const [numericValue, setNumericValue] = React.useState("");
+	const [selectedDormitory, setSelectedDormitory] = React.useState("");
+	const [isDormitorySelectEnabled, setIsDormitorySelectEnabled] = React.useState(false);
+	const [selectedFaculty, setSelectedFaculty] = React.useState("");
+	const [isFacultySelectEnabled, setIsFacultySelectEnabled] = React.useState(false);
+	const [selectedGroup, setSelectedGroup] = React.useState("");
+	const [isGroupSelectEnabled, setIsGroupSelectEnabled] = React.useState(false);
 	const [todayDate] = React.useState(new Date().toISOString().slice(0, 10));
-
 	const [entries, setEntries] = React.useState([]);
     const [startDate, setStartDate] = React.useState(new Date().toISOString().slice(0, 10));
     const [endDate, setEndDate] = React.useState(new Date().toISOString().slice(0, 10));
     const [selectedType, setSelectedType] = React.useState("количественный");
     const [selectedIndexes, setSelectedIndexes] = React.useState([]);
+	const [selectedSample, setSelectedSample] = React.useState("");
+	const [isSampleSelectEnabled, setIsSampleSelectEnabled] = React.useState(true); // предполагаем, что селектор изначально активен
+	const [selectedBlock, setSelectedBlock] = React.useState("");
+	const [isBlockSelectEnabled, setIsBlockSelectEnabled] = React.useState(true); // предполагаем, что селектор изначально активен
 
 	/*document.addEventListener('DOMContentLoaded', function() {
 		document.getElementById("generate").addEventListener("click", () => generateWordDocument(entries), false);
@@ -156,34 +183,86 @@ function ReportManagerPage() {
         const selectedOptions = Array.from(event.target.selectedOptions).map(option => option.value);
         setSelectedSubCriterion(selectedOptions);
 
-        const enableNumericValue = selectedOptions.includes("Количество комнат с определенным количеством свободных мест");
-        setIsNumericValueEnabled(enableNumericValue);
+		setNumericValue("");
+		setSelectedEvent("");
+		setSelectedDormitory("");
+		setSelectedFaculty("");
+		setSelectedGroup("");
 
-        const enableTypeSelect = selectedOptions.some(option =>
-            ["Количество студентов, участвующих в событии",
-             "Количество событий, начавшихся в определенный диапазон дат",
-             "Количество событий, закончившихся в определенный диапазон дат",
-             "Количество событий, продолжительность которых входит в определенный диапазон дат",
-             "Количество комнат с определенным количеством свободных мест",
-             "Количество студентов, которым оказывается материальная помощь",
-             "Количество студентов, проживающих в общежитии",
-             "Количество договоров, действующих в диапазоне дат",
-             "Количество комнат с определенным общим числом мест в комнате",
-             "Количество комнат, полностью занятых в определенный диапазон дат"].includes(option));
-        setIsTypeSelectEnabled(enableTypeSelect);
+        const enableNumericValue = selectedOptions.some(option =>
+			["Количество комнат с определенным числом свободных мест",
+			 "Количество комнат с определенным общим числом мест в комнате"].includes(option));
+		setIsNumericValueEnabled(enableNumericValue);
+
+		const enableEventSelect = selectedOptions.includes("Количество студентов, участвующих в событии");
+		setIsEventSelectEnabled(enableEventSelect);
+
+		const enableDormitorySelect = selectedOptions.some(option =>
+			["Общее количество студентов, проживающих в общежитии",
+			"Общее количество комнат в общежитии",
+			"Количество комнат с определенным числом свободных мест",
+			"Количество комнат с определенным общим числом мест в комнате"].includes(option));
+		setIsDormitorySelectEnabled(enableDormitorySelect);
+	
+		const enableFacultySelect = selectedOptions.some(option =>
+			["Общее количество студентов на факультете",
+			"Количество студентов, проживающих в общежитии",
+			"Количество студентов, которым оказывается материальная помощь"].includes(option));
+		setIsFacultySelectEnabled(enableFacultySelect);
+	
+		const enableGroupSelect = selectedOptions.some(option =>
+			["Общее количество студентов в группе",
+			"Количество студентов, проживающих в общежитии",
+			"Количество студентов, которым оказывается материальная помощь"].includes(option));
+		setIsGroupSelectEnabled(enableGroupSelect);
+
     };
 
     const isAddButtonDisabled = selectedSubCriterion.length === 0 || (isNumericValueEnabled && !numericValue);
 
+	const sample = [
+		{
+			text: "Министерство науки и высшего образования Российской\n Федерации",
+			font: "Times New Roman",
+			size: 16,
+			alignment: "center",
+			bold: true
+		}
+	];
+	const sample2 = [
+		{
+			text: "Приказ",
+			font: "Times New Roman",
+			size: 16,
+			alignment: "center",
+			bold: true
+		},
+		{
+			text: "[Отчет]",
+			font: "Times New Roman",
+			size: 12,
+			alignment: "left",
+			bold: false
+		},
+		{
+			text: "Томск, 2024",
+			font: "Times New Roman",
+			size: 12,
+			alignment: "center",
+			bold: false
+		}
+	];
+
 	window.onload = function() {
 			document.getElementById('controlUsersUniversity').className = "topbutton-page-university";
+			document.getElementById('reportsUniversityTab').className = "leftPanelUniversity_clicked";
 			//enter();
 		};
 	return (
 		<div className="pageUniversity">
 			< TopPanelUniversity />
 			<div className="mavr">
-					<LeftPanelOfReportManager/>
+				< LeftPanelOfReportManagerUniversity />
 					<div className="workspace">
 						<div id="myModal" class="modal">
 							<div class="modal-content">
@@ -191,68 +270,118 @@ function ReportManagerPage() {
 								<div id="docContent"></div>
 							</div>
 						</div>
-						<div className="report-space">
+						<div className="report-space-university">
 							<div>
-								<div className="text-info"> 
-									<p className="text-main">
-										Составить отчеты: 
-										</p>
-								</div>
-								<div className="select-container">
-									<select id="criteriaSelect" onChange={handleCriterionChange} className="listboxClass" multiple size="8">
-										<option value="">Выберите критерий</option>
-										{Object.keys(criteria).map(criterion => (
-											<option key={criterion} value={criterion}>{criterion}</option>
+								<div className="text-info"><p className="text-main">Шаблоны:</p></div>
+								<div className="block-horizontal-flex-show-sample-control">
+									<select id="SampleSelect" onChange={(e) => setSelectedSample(e.target.value)} className="listboxClass">
+										{samples.map(type => (
+											<option key={type} value={type}>{type}</option>
 										))}
 									</select>
-									<select id="subCriteriaSelect" onChange={handleSubCriterionChange} className="listboxClass" multiple size="8">
-										{subCriteria.map(subCriterion => (
-											<option key={subCriterion} value={subCriterion}>{subCriterion}</option>
-										))}
-									</select>
-									<div className="input-container">
-										<label>
-											Числовое значение:
-											<input type="number" id="numericValue" value={numericValue} onChange={(e) => setNumericValue(e.target.value)} disabled={!isNumericValueEnabled} />
-										</label>
-										<div className="date-container">
-											<label>
-												Дата начала:
-												<input type="date" id="startDate" defaultValue={todayDate} />
-											</label>
-											<label>
-												Дата окончания:
-												<input type="date" id="endDate" defaultValue={todayDate} />
-											</label>
-										</div>
+									<div className="block-horizontal-flex-show-sample-control-element">
+										<button  onClick={() => showSample(sample)}>Просмотр</button>
+										<button  onClick={() => showSample(sample)}>Удалить</button>
 									</div>
-									<button onClick={handleAddEntry} disabled={!selectedSubCriterion.length || (isNumericValueEnabled && !numericValue)}>Добавить</button>
 								</div>
-								<div className="select-container-right">
-									<button onClick={moveUp} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === 0}>Вверх</button>
-									<button onClick={moveDown} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === entries.length - 1}>Вниз</button>
-									<select multiple size="10" onChange={handleSelectChange} value={selectedIndexes}>
-										{entries.map((entry, index) => (
-											<option key={index} value={index}>{entry.Criteria}</option>
+								<div className="text-info"><p className="text-main">Блоки:</p></div>
+								<div className="block-horizontal-flex-show-sample-control">
+									<select id="BlockSelect" onChange={(e) => setSelectedBlock(e.target.value)} className="listboxClass">
+										{blocks.map(type => (
+											<option key={type} value={type}>{type}</option>
 										))}
 									</select>
-									<button onClick={removeSelected} disabled={selectedIndexes.length === 0}>Убрать</button>
-									<button onClick={testEntries}>Test</button>
+									<div className="block-horizontal-flex-show-sample-control-element">
+										<button  onClick={() => showSample(sample)}>Просмотр</button>
+										<button  onClick={() => showSample(sample)}>Удалить</button>
+									</div>
 								</div>
-								<div>
+								<div className="text-info"><p className="text-main">Создать блок:</p></div>
+								<table className="block-horizontal">
+									<thead>
+										<tr>
+										<th>Название блока</th>
+										<th>Размер</th>
+										<th>Шрифт</th>
+										<th>Тип</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+										<td>
+											<input
+											value={blockName}
+											onChange={e => setBlockName(e.target.value)}
+											id="blockName"
+											style={{ width: '450px' }} 
+											/>
+										</td>
+										<td>
+											<input
+											type="number"
+											value={fontSize}
+											onChange={e => setFontSize(e.target.value)}
+											id="sizeInput"
+											style={{ width: '50px' }} 
+											/>
+										</td>
+										<td>
+											<select
+											onChange={e => console.log("Font selected:", e.target.value)}
+											id="fontSelector"
+											>
+											{fonts.map(font => (
+												<option key={font} value={font}>{font}</option>
+											))}
+											</select>
+										</td>
+										<td>
+											<select
+											onChange={e => console.log("Style selected:", e.target.value)}
+											id="typeSelector"
+											>
+											{styles.map(style => (
+												<option key={style} value={style}>{style}</option>
+											))}
+											</select>
+										</td>
+										</tr>
+									</tbody>
+								</table>
+								<textarea id="blockTextArea" name="freeform" rows="10" cols="100"></textarea>
+								<div className="block-horizontal-flex-padding">
+									<button  onClick={() => showSample(sample)}>Предпросмотр</button>
+									<button  onClick={() => showSample(sample)}>Добавить</button>
+								</div>
+								<div className="text-info"><p className="text-main">Создать шаблон:</p></div>
+								<div className="select-container">
+									<div className="block-horizontal-flex">
+										<select id="criteriaSelect" onChange={handleCriterionChange} className="listboxClass-criteria" multiple size="8">
+											{Object.keys(criteria).map(criterion => (
+												<option key={criterion} value={criterion}>{criterion}</option>
+											))}
+										</select>
+									</div>
+									<div className="select-container-right">
+										<button onClick={moveUp} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === 0}>Вверх</button>
+										<button onClick={moveDown} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === entries.length - 1}>Вниз</button>
+										<select className="listboxClass-undercriteria" multiple size="8" onChange={handleSelectChange} value={selectedIndexes}>
+											{entries.map((entry, index) => (
+												<option key={index} value={index}>{entry.Criteria}</option>
+											))}
+										</select>
+										<button onClick={removeSelected} disabled={selectedIndexes.length === 0}>Убрать</button>
+										<button hidden onClick={testEntries}>Test</button>
+									</div>
+									<div>
+										<button onClick={() => generateWordDocument(entries)}>Составить отчет</button>
+									</div>
+									<div>
+									<button onClick={() => combinedFunction(sample, entries, 1)}>Test3</button>
 									<textarea id="docTextArea" name="freeform" rows="10" cols="50">
 									</textarea>
 								</div>
-								<div>
-									<button onClick={() => generateWordDocument(entries)}>Generate Word Document</button>
 								</div>
-								<div className="text-info">
-									<p className="text-main"> 
-										Класс:
-										<select id="clSel" className="student-input"> </select>
-									</p>
-								</div>
-								<OClNORM2 />
 								<div>
 									<button className="profile-button"><img src="https://i.ibb.co/tDWy41D/create-document.png" className="profile-button2"></img></button> 
 								</div>
@@ -264,10 +393,6 @@ function ReportManagerPage() {
 		</div>
   );	
 }
-
-/*document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById("generate").addEventListener("click", generateWordDocument, false);
-});*/
 
 async function countNonEmptyLinesAndNewlines() {
     const text = document.getElementById('docTextArea').value;
@@ -360,6 +485,155 @@ async function generateWordDocument(entries) {
     // Генерация Blob из документа и его скачивание
     const blob = await Packer.toBlob(doc);
     saveDocument(blob, "Отчет.docx");
+
+	// Генерация Excel файла
+	const workbook = new ExcelJS.Workbook();
+	const worksheet = workbook.addWorksheet("Numbers");
+
+	// Добавление данных в Excel
+	const numbersInWords = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+	numbersInWords.forEach((item, index) => {
+		worksheet.addRow([item]);
+	});
+
+	// Настройка заголовков
+	worksheet.getRow(1).font = { bold: true };
+
+	// Сохранение в Blob и инициация скачивания
+	const buffer = await workbook.xlsx.writeBuffer();
+	const blob2 = new Blob([buffer], {
+		type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+	});
+	saveDocument(blob2, "numbers.xlsx");
+}
+
+async function combinedFunction(data, entries, replacePosition) {
+    const modalContent = document.getElementById("docContent");
+    const textAreaContent = document.getElementById('docTextArea').value; // Получаем текст пользователя
+    let combinedContent = '';
+    let documentContent = [];
+
+    // Обработка до точки замены
+    data.slice(0, replacePosition).forEach(item => {
+        combinedContent += formatHTML(item);
+        documentContent.push(formatParagraph(item));
+    });
+
+    // Получаем стиль элемента, который заменяем
+    const baseStyle = data[replacePosition];
+
+    // Обработка entries и текста пользователя с применением стиля заменяемого элемента
+    const formattedEntries = entries.map(entry => formatEntry(entry)).join("\n");
+    const entriesContent = formattedEntries.replace(/\n/g, '<br>') + "<br><br>" + textAreaContent.replace(/\n/g, '<br>') + "<br><br>";
+    combinedContent += `<div style='font-family: ${baseStyle.font}; font-size: ${baseStyle.size}px; text-align: ${baseStyle.alignment}; font-weight: ${baseStyle.bold ? 'bold' : 'normal'};'>${entriesContent}</div>`;
+
+    formattedEntries.split('\n').concat(textAreaContent).forEach(line => {
+        documentContent.push(new Paragraph({
+            children: [new TextRun({
+                text: line,
+                bold: baseStyle.bold,
+                font: baseStyle.font,
+                size: baseStyle.size * 2
+            })],
+            alignment: getAlignment(baseStyle.alignment)
+        }));
+    });
+
+    // Обработка после точки замены
+    data.slice(replacePosition + 1).forEach(item => {
+        combinedContent += formatHTML(item);
+        documentContent.push(formatParagraph(item));
+    });
+
+    // Вывод в HTML
+    modalContent.innerHTML = combinedContent;
+    document.getElementById("myModal").style.display = "block";
+    setupModal();
+}
+
+function setupModal() {
+    var modal = document.getElementById("myModal");
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+}
+
+function formatHTML(item) {
+    return `<div style='font-family: ${item.font}; font-size: ${item.size}px; text-align: ${item.alignment}; font-weight: ${item.bold ? 'bold' : 'normal'};'>${item.text}</div><br><br>`;
+}
+
+function formatParagraph(item) {
+    return new Paragraph({
+        children: [
+            new TextRun({
+                text: item.text,
+                bold: item.bold,
+                font: item.font,
+                size: item.size * 2 // Умножаем размер шрифта на 2 для Half-point measure
+            })
+        ],
+        alignment: getAlignment(item.alignment)
+    });
+}
+
+function getAlignment(align) {
+    switch (align.toLowerCase()) {
+        case 'left': return AlignmentType.LEFT;
+        case 'center': return AlignmentType.CENTER;
+        case 'right': return AlignmentType.RIGHT;
+        case 'justify': return AlignmentType.JUSTIFIED;
+        default: return AlignmentType.LEFT;
+    }
+}
+
+async function showSample(data) {
+    const modalContent = document.getElementById("docContent");
+    let combinedContent = '';
+    let documentContent = [];
+
+    // Обрабатываем каждый элемент массива
+    data.forEach(item => {
+        // Добавляем HTML для модального окна
+        combinedContent += `<div style='font-family: ${item.font}; font-size: ${item.size}px; text-align: ${item.alignment}; font-weight: ${item.bold ? 'bold' : 'normal'};'>${item.text}</div><br><br>`;
+
+        // Создаем абзац для документа Word
+        const paragraph = new Paragraph({
+            children: [
+                new TextRun({
+                    text: item.text,
+                    bold: item.bold,
+                    font: item.font,
+                    size: item.size * 2  // Размер шрифта в Half-point measure, поэтому умножаем на 2
+                })
+            ],
+            alignment: getAlignment(item.alignment)
+        });
+		
+        documentContent.push(paragraph);
+        documentContent.push(new Paragraph({})); // Добавляем пустой абзац как разделитель
+    });
+
+    // Вставляем HTML в модальное окно
+    modalContent.innerHTML = combinedContent;
+    document.getElementById("myModal").style.display = "block";
+
+    // Настройка закрытия модального окна
+    var modal = document.getElementById("myModal");
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
 }
 
 function saveDocument(blob, fileName) {
@@ -384,176 +658,4 @@ function formatEntry(entry) {
     formattedText += `\nДата: ${entry.DataOn} - ${entry.DataOff}\n`;
     return formattedText;
 }
-
-
-async function convertDocxBlobToHtml(blob) {
-    try {
-        const result = await convertToHtml({arrayBuffer: await blob.arrayBuffer()});
-        return result.value; // Содержимое DOCX в формате HTML
-    } catch (error) {
-        console.error("Ошибка при конвертации:", error);
-        return "";
-    }
-}
-
-/*const sendData = async (blob) => {
-    const formData = new FormData();
-    formData.append("document", blob, "document.docx");
-
-    try {
-        const response = await fetch('http://localhost:5500/API/class/convertToPdf', { // Обновленный URL
-            method: 'POST',
-            body: formData,
-        });
-
-        if (response.ok) {
-            const pdfBlob = await response.blob();
-            displayPdfInModal(pdfBlob);
-        } else {
-            console.error('Ошибка при загрузке файла');
-        }
-    } catch (error) {
-        console.error('Ошибка при отправке запроса', error);
-    }
-};*/
-
-/*async function sendData(blob) {
-	const text = await blob.text();
-	console.log(text);
-	const formData = new FormData();
-    formData.append("document", blob);
-
-	let responseocl = await fetch('http://localhost:5500/API/class/convertToPdf', {
-		method: 'POST',
-		body: formData
-	});
-
-	if (responseocl.ok) {
-		const pdfBlob = await responseocl.blob(); // Получаем PDF как blob
-		// Теперь можете что-то сделать с pdfBlob, например, отобразить его
-	} else {
-		console.error('Ошибка при загрузке файла');
-		// Если вы всё же ожидаете JSON с ошибкой, убедитесь, что сервер его отправляет, и вызывайте .json() только один раз.
-		const errorText = await responseocl.text(); // Лучше использовать .text() для отладки
-		alert("Ошибка: " + errorText);
-	}
-}*/
-
-const displayPdfInModal = (pdfBlob) => {
-    const pdfUrl = URL.createObjectURL(pdfBlob);
-    const iframe = document.createElement('iframe');
-    iframe.style.width = '100%';
-    iframe.style.height = '600px';
-    iframe.src = pdfUrl;
-    
-    const modalContent = document.getElementById("docContent");
-    modalContent.innerHTML = '';
-    modalContent.appendChild(iframe);
-
-    const modal = document.getElementById("myModal");
-    modal.style.display = "block";
-};
-
-async function enter() {
-	let responseo = await fetch(port_reg_cl, {
-		method: 'GET',
-		headers: {
-		Authorization: `Bearer ${localStorage.token}` ,
-		'Content-Type': 'application/json;charset=utf-8'
-		},
-		});
-	let resulto = await responseo.json();
-	let i=0;
-	while(i<resulto.length){
-		let result2 = JSON.stringify(resulto[i].number +  " " + resulto[i].letter);
-		var result3 = result2.substring(1, result2.length-1);
-		let p = document.createElement('option')
-		p.value=resulto[i].id;
-		let txt = document.createTextNode(result3)
-		p.appendChild(txt);
-		document.getElementById('clSel').appendChild(p);
-		i++;
-	}
-	document.getElementById('oClb').onclick = function() {entero();};;
-}
-
-async function entero() {
-	let checked=0;
-	if(document.getElementById('opof').checked) {checked++};
-	if(document.getElementById('okol').checked) {checked++};
-	if(document.getElementById('opr').checked) {checked++};
-	if(checked>1){
-		alert("Выберите один отчет");
-	}
-	else{
-		if (document.getElementById('opof').checked){
-				let ocl = {
-					class_ID:document.getElementById('oCl').value,
-				};
-			let responseocl = await fetch(port_find_students, {
-				method: 'POST',
-				headers: {
-				Authorization: `Bearer ${localStorage.token}` ,
-				'Content-Type': 'application/json;charset=utf-8'
-				},
-				body: JSON.stringify(ocl)
-				});
-			let resultocl = await responseocl.json();
-			let i = 0;
-			while (i<resultocl.count){
-				if(resultocl.rows[i].PFDO.length!=0){
-					alert(resultocl.rows[i].name);
-				}
-				i++;
-			}
-		}
-		if (document.getElementById('okol').checked){
-				let ocl = {
-					class_ID:document.getElementById('oCl').value,
-				};
-			let responseocl = await fetch(port_find_students, {
-				method: 'POST',
-				headers: {
-				Authorization: `Bearer ${localStorage.token}` ,
-				'Content-Type': 'application/json;charset=utf-8'
-				},
-				body: JSON.stringify(ocl)
-				});
-			let resultocl = await responseocl.json();
-			let i = 0;
-			let j = 0;
-			while (i<resultocl.count){
-				if(resultocl.rows[i].PFDO.length!=0){
-					j++;
-				}
-				i++;
-			}
-			alert(j);
-		}
-		if (document.getElementById('opr').checked){
-			let ocl = {
-					class_ID:document.getElementById('oCl').value,
-				};
-			let responseocl = await fetch(port_find_students, {
-				method: 'POST',
-				headers: {
-				Authorization: `Bearer ${localStorage.token}` ,
-				'Content-Type': 'application/json;charset=utf-8'
-				},
-				body: JSON.stringify(ocl)
-				});
-			let resultocl = await responseocl.json();
-			let i = 0;
-			let j = 0;
-			while (i<resultocl.count){
-				if(resultocl.rows[i].PFDO.length!=0){
-					j++;
-				}
-				i++;
-			}
-			alert(j/resultocl.count*100 + "%");
-		}
-	}
-}
-
 export default ReportManagerPage;

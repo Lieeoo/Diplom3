@@ -5,7 +5,7 @@ import React from 'react';
 
 import {TopPanelUniversity, LeftPanelOfReportManager} from "../../ui/NavigationPanels/NavigationPanels.jsx";
 import {OCl, OVR, OClNORM2} from "../../../See.js";
-import { Document, Packer, Paragraph, TextRun } from 'docx';
+import { Document, Packer, Paragraph, TextRun, AlignmentType} from 'docx';
 import {convertToHtml} from "mammoth/mammoth.browser";
 import { PDFDocument, rgb } from 'pdf-lib';
 import ExcelJS from 'exceljs';
@@ -210,6 +210,30 @@ function ReportManagerPage() {
 
     const isAddButtonDisabled = selectedSubCriterion.length === 0 || (isNumericValueEnabled && !numericValue);
 
+	const sample = [
+		{
+			text: "Приказ",
+			font: "Times New Roman",
+			size: 16,
+			alignment: "center",
+			bold: true
+		},
+		{
+			text: "[Отчет]",
+			font: "Times New Roman",
+			size: 12,
+			alignment: "left",
+			bold: false
+		},
+		{
+			text: "Томск, 2024",
+			font: "Times New Roman",
+			size: 12,
+			alignment: "center",
+			bold: false
+		}
+	];
+
 	window.onload = function() {
 			document.getElementById('reportManagerEmploymentUniversity').className = "topbutton-page-university";
 			//enter();
@@ -254,6 +278,14 @@ function ReportManagerPage() {
 											<label className="block-vertical-flex">
 												Дата окончания:
 												<input type="date" id="endDate" defaultValue={todayDate} />
+											</label>
+											<label>
+												Детальный:
+												<input type="checkbox"></input>
+											</label>
+											<label>
+												Скачать отчет:
+												<input type="checkbox"></input>
 											</label>
 										</div>
 										<div className="block-vertical-flex-report-parameters">
@@ -301,30 +333,31 @@ function ReportManagerPage() {
 									<div className="select-container-right">
 										<button onClick={moveUp} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === 0}>Вверх</button>
 										<button onClick={moveDown} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === entries.length - 1}>Вниз</button>
-										<select multiple size="8" onChange={handleSelectChange} value={selectedIndexes}>
+										<select className="listboxClass-undercriteria" multiple size="8" onChange={handleSelectChange} value={selectedIndexes}>
 											{entries.map((entry, index) => (
 												<option key={index} value={index}>{entry.Criteria}</option>
 											))}
 										</select>
 										<button onClick={removeSelected} disabled={selectedIndexes.length === 0}>Убрать</button>
-										<button onClick={testEntries}>Test</button>
+										<button hidden onClick={testEntries}>Test</button>
 									</div>
-									<div className="block-horizontal-flex">
+									<div className="block-horizontal-flex-show-sample">
 										<select id="SampleSelect" onChange={(e) => setSelectedSample(e.target.value)} className="listboxClass">
 											{samples.map(type => (
 												<option key={type} value={type}>{type}</option>
 											))}
 										</select>
+										<button  onClick={() => showSample(sample)}>Предпросмотр</button>
 									</div>
 									<div>
 										<button onClick={() => generateWordDocument(entries)}>Составить отчет</button>
 									</div>
 									<div>
+									<button onClick={() => combinedFunction(sample, entries, 1)}>Test3</button>
 									<textarea id="docTextArea" name="freeform" rows="10" cols="50">
 									</textarea>
 								</div>
 								</div>
-								
 								
 								<div className="text-info">
 									<p className="text-main"> 
@@ -460,6 +493,173 @@ async function generateWordDocument(entries) {
 		type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 	});
 	saveDocument(blob2, "numbers.xlsx");
+}
+
+async function combinedFunction(data, entries, replacePosition) {
+    const modalContent = document.getElementById("docContent");
+    const textAreaContent = document.getElementById('docTextArea').value; // Получаем текст пользователя
+    let combinedContent = '';
+    let documentContent = [];
+
+    // Обработка до точки замены
+    data.slice(0, replacePosition).forEach(item => {
+        combinedContent += formatHTML(item);
+        documentContent.push(formatParagraph(item));
+    });
+
+    // Получаем стиль элемента, который заменяем
+    const baseStyle = data[replacePosition];
+
+    // Обработка entries и текста пользователя с применением стиля заменяемого элемента
+    const formattedEntries = entries.map(entry => formatEntry(entry)).join("\n");
+    const entriesContent = formattedEntries.replace(/\n/g, '<br>') + "<br><br>" + textAreaContent.replace(/\n/g, '<br>') + "<br><br>";
+    combinedContent += `<div style='font-family: ${baseStyle.font}; font-size: ${baseStyle.size}px; text-align: ${baseStyle.alignment}; font-weight: ${baseStyle.bold ? 'bold' : 'normal'};'>${entriesContent}</div>`;
+
+    formattedEntries.split('\n').concat(textAreaContent).forEach(line => {
+        documentContent.push(new Paragraph({
+            children: [new TextRun({
+                text: line,
+                bold: baseStyle.bold,
+                font: baseStyle.font,
+                size: baseStyle.size * 2
+            })],
+            alignment: getAlignment(baseStyle.alignment)
+        }));
+    });
+
+    // Обработка после точки замены
+    data.slice(replacePosition + 1).forEach(item => {
+        combinedContent += formatHTML(item);
+        documentContent.push(formatParagraph(item));
+    });
+
+    // Вывод в HTML
+    modalContent.innerHTML = combinedContent;
+    document.getElementById("myModal").style.display = "block";
+    setupModal();
+
+    // Создаем и скачиваем документ Word
+    const doc = new Document({
+        sections: [{
+            properties: {},
+            children: documentContent
+        }]
+    });
+
+    const blob = await Packer.toBlob(doc);
+    saveDocument(blob, "Отчет.docx");
+}
+
+function setupModal() {
+    var modal = document.getElementById("myModal");
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+}
+
+function formatHTML(item) {
+    return `<div style='font-family: ${item.font}; font-size: ${item.size}px; text-align: ${item.alignment}; font-weight: ${item.bold ? 'bold' : 'normal'};'>${item.text}</div><br><br>`;
+}
+
+function formatParagraph(item) {
+    return new Paragraph({
+        children: [
+            new TextRun({
+                text: item.text,
+                bold: item.bold,
+                font: item.font,
+                size: item.size * 2 // Умножаем размер шрифта на 2 для Half-point measure
+            })
+        ],
+        alignment: getAlignment(item.alignment)
+    });
+}
+
+function getAlignment(align) {
+    switch (align.toLowerCase()) {
+        case 'left': return AlignmentType.LEFT;
+        case 'center': return AlignmentType.CENTER;
+        case 'right': return AlignmentType.RIGHT;
+        case 'justify': return AlignmentType.JUSTIFIED;
+        default: return AlignmentType.LEFT;
+    }
+}
+
+async function showSample(data) {
+    const modalContent = document.getElementById("docContent");
+    let combinedContent = '';
+    let documentContent = [];
+
+    // Обрабатываем каждый элемент массива
+    data.forEach(item => {
+        // Добавляем HTML для модального окна
+        combinedContent += `<div style='font-family: ${item.font}; font-size: ${item.size}px; text-align: ${item.alignment}; font-weight: ${item.bold ? 'bold' : 'normal'};'>${item.text}</div><br><br>`;
+
+        // Создаем абзац для документа Word
+        const paragraph = new Paragraph({
+            children: [
+                new TextRun({
+                    text: item.text,
+                    bold: item.bold,
+                    font: item.font,
+                    size: item.size * 2  // Размер шрифта в Half-point measure, поэтому умножаем на 2
+                })
+            ],
+            alignment: getAlignment(item.alignment)
+        });
+		
+        documentContent.push(paragraph);
+        documentContent.push(new Paragraph({})); // Добавляем пустой абзац как разделитель
+    });
+
+    // Вставляем HTML в модальное окно
+    modalContent.innerHTML = combinedContent;
+    document.getElementById("myModal").style.display = "block";
+
+    // Настройка закрытия модального окна
+    var modal = document.getElementById("myModal");
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+
+    // Создаем документ Word
+    const doc = new Document({
+        styles: {
+            paragraphStyles: [
+                {
+                    id: "CustomStyle",
+                    name: "CustomStyle",
+                    basedOn: "Normal",
+                    next: "Normal",
+                    run: {
+                        bold: true,
+                        font: "Calibri"
+                    },
+                    paragraph: {}
+                }
+            ]
+        },
+        sections: [{
+            properties: {},
+            children: documentContent
+        }]
+    });
+
+    // Генерация и скачивание документа
+    const blob = await Packer.toBlob(doc);
+    saveDocument(blob, "Отчет.docx");
 }
 
 function saveDocument(blob, fileName) {

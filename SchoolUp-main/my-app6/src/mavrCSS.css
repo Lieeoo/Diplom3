@@ -670,6 +670,47 @@
 	justify-content: space-evenly;
     width: 100%; 
 }
+.block-horizontal-flex-padding{
+	display: flex; 
+    align-items: center; 
+	justify-content: center;
+    width: 100%; 
+}
+.block-horizontal-flex-padding > * {
+    margin-left: 10px;    /* Отступ сверху */
+    margin-right: 10px; /* Отступ снизу */
+}
+.block-horizontal{
+	padding-left: 12vh;
+}
+.block-horizontal-flex-show-sample{
+	display: inline-flex; 
+    align-items: center; 
+    flex-wrap: nowrap;
+	justify-content: center;
+    width: 100%; 
+}
+.block-horizontal-flex-show-sample-control{
+	display: inline-flex; 
+    align-items: center; 
+    flex-wrap: nowrap;
+	justify-content: center;
+    width: 100%; 
+}
+.block-horizontal-flex-show-sample-control > * {
+	margin-left: 20px;
+    margin-right: 20px;
+}
+.block-horizontal-flex-show-sample-control-element{
+	display: inline-flex; 
+    align-items: center; 
+    flex-wrap: nowrap;
+	justify-content: center;
+}
+.block-horizontal-flex-show-sample-control-element > * {
+	margin-left: 5px;
+    margin-right: 5px;
+}
 .block-vertical-flex{
 	display: inline-flex; 
 	flex-direction: column;
@@ -701,4 +742,7 @@
 }
 .listboxClass-undercriteria{
 	width: 70vh;
+}
+th {
+    font-weight: normal; /* Устанавливаем нежирное начертание для заголовков таблицы */
 }
