@@ -3,7 +3,7 @@ import '../../../mavrCSS.css';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import {TopPanelUniversity, LeftPanelOfReportManager} from "../../ui/NavigationPanels/NavigationPanels.jsx";
+import {TopPanelUniversity, LeftPanelOfReportManagerUniversity} from "../../ui/NavigationPanels/NavigationPanels.jsx";
 import {OCl, OVR, OClNORM2} from "../../../See.js";
 import { Document, Packer, Paragraph, TextRun, AlignmentType} from 'docx';
 import {convertToHtml} from "mammoth/mammoth.browser";
@@ -27,12 +27,6 @@ function ReportManagerPage() {
 		"Внеучебное событие": [
 			"Общее количество событий",
 			"Количество студентов, участвующих в событии"
-		],
-		"Расселение в общежития": [
-			"Общее количество студентов, проживающих в общежитиях"
-		],
-		"Материальная помощь": [
-			"Общее количество студентов, которым оказывается материальная помощь"
 		],
 		"Общежитие": [
 			"Общее количество студентов, проживающих в общежитии",
@@ -236,12 +230,14 @@ function ReportManagerPage() {
 
 	window.onload = function() {
 			document.getElementById('reportManagerEmploymentUniversity').className = "topbutton-page-university";
+			document.getElementById('reportUniversityTab').className = "leftPanelUniversity_clicked";
 			//enter();
 		};
 	return (
 		<div className="pageUniversity">
 			< TopPanelUniversity />
 			<div className="mavr">
+				< LeftPanelOfReportManagerUniversity />
 					<div className="workspace">
 						<div id="myModal" class="modal">
 							<div class="modal-content">
@@ -258,7 +254,7 @@ function ReportManagerPage() {
 								</div>
 								<div className="select-container">
 									<div className="block-horizontal-flex">
-										<select id="criteriaSelect" onChange={handleCriterionChange} className="listboxClass-criteria" multiple size="8">
+										<select id="criteriaSelect" onChange={handleCriterionChange} className="listboxClass-criteria" multiple size="5">
 											{Object.keys(criteria).map(criterion => (
 												<option key={criterion} value={criterion}>{criterion}</option>
 											))}
@@ -272,12 +268,8 @@ function ReportManagerPage() {
 									<div className="block-horizontal-flex">
 										<div className="date-container">
 											<label className="block-vertical-flex">
-												Дата начала:
+												Дата:
 												<input type="date" id="startDate" defaultValue={todayDate} />
-											</label>
-											<label className="block-vertical-flex">
-												Дата окончания:
-												<input type="date" id="endDate" defaultValue={todayDate} />
 											</label>
 											<label>
 												Детальный:
@@ -330,15 +322,19 @@ function ReportManagerPage() {
 									<div className="block-horizontal-flex">
 										<button onClick={handleAddEntry} disabled={!selectedSubCriterion.length || (isNumericValueEnabled && !numericValue)}>Добавить</button>
 									</div>
-									<div className="select-container-right">
-										<button onClick={moveUp} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === 0}>Вверх</button>
-										<button onClick={moveDown} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === entries.length - 1}>Вниз</button>
+									<div className="block-horizontal-flex-padding">
+										<div className='block-vertical-up-down-delete'>
+											<div className='block-vertical-up-down'>
+												<button onClick={moveUp} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === 0}>Вверх</button>
+												<button onClick={moveDown} disabled={selectedIndexes.length !== 1 || selectedIndexes[0] === entries.length - 1}>Вниз</button>
+											</div>
+											<button onClick={removeSelected} disabled={selectedIndexes.length === 0}>Убрать</button>
+										</div>
 										<select className="listboxClass-undercriteria" multiple size="8" onChange={handleSelectChange} value={selectedIndexes}>
 											{entries.map((entry, index) => (
 												<option key={index} value={index}>{entry.Criteria}</option>
 											))}
 										</select>
-										<button onClick={removeSelected} disabled={selectedIndexes.length === 0}>Убрать</button>
 										<button hidden onClick={testEntries}>Test</button>
 									</div>
 									<div className="block-horizontal-flex-show-sample">
@@ -674,14 +670,14 @@ function saveDocument(blob, fileName) {
 }
 
 function formatEntry(entry) {
-    let formattedText = `${entry.Criteria}: ${Math.floor(Math.random() * 50) + 1}`;
+    let formattedText = `${entry.Criteria}: ${Math.floor(Math.random() * 10) + 1}`;
     if (entry.Type === "процентный") {
         formattedText += "%";
     }
     if (entry.Number) {
         formattedText += `\nКоличество мест: ${entry.Number}`;
     }
-    formattedText += `\nДата: ${entry.DataOn} - ${entry.DataOff}\n`;
+    formattedText += `\nДата: ${entry.DataOn}\n`;
     return formattedText;
 }
 

@@ -155,7 +155,7 @@
 	margin: auto;
 	padding: 20px;
 	border: 1px solid #888;
-	width: 80%;
+	width: 40%;
 	max-height: 90vh;
     overflow-y: auto; 
 }
@@ -706,6 +706,28 @@
     align-items: center; 
     flex-wrap: nowrap;
 	justify-content: center;
+}
+.block-vertical-up-down-delete{ 
+	display: inline-flex; 
+	flex-direction: column;
+    align-items: center; 
+    flex-wrap: nowrap;
+	justify-content: center;
+}
+.block-vertical-up-down-delete > * { 
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.block-vertical-up-down{ 
+	display: inline-flex; 
+	flex-direction: column;
+    align-items: center; 
+    flex-wrap: nowrap;
+	justify-content: center;
+}
+.block-vertical-up-down> * { 
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 .block-horizontal-flex-show-sample-control-element > * {
 	margin-left: 5px;
