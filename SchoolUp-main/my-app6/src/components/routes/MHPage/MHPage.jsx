@@ -17,34 +17,36 @@ function MHPage() {
 					<div id="LeftPanelVR">
 						<LeftPanelOfMaterialrWork/>
 					</div>
-					<div className="ew_workspace_university">
+					<div className="material_help_workspace_university">
 						<div className="ListSt">
-							<a href="create_event"><button className="profile-button"><img src="https://i.ibb.co/Tbth16X/add.png" className="profile-button2"></img></button></a>
 							<p className="profileName">Список документов</p>
+							<p className="profileName">1. Документ</p>
+							<div className="document-container-border">
+								<div className="document-container">
+									<div className="document-section">
+										<p className="material_help_bold">Заявление:</p>
+										<p>ФИО: Григорьев Михаил Кириллович</p>
+										<p>Дата заключения заявления: 08.02.24</p>
+										<p>Дата действия заявления: 08.02.24 - 08.03.24</p>
+										<p>Сумма: 2300 руб.</p>
+										<p className="material_help_document_href">Документ</p>
+									</div>
+									<div className="document-section">
+										<p className="material_help_bold">Основание к заявлению:</p>
+										<p>Пункт положения: 2.2.3.1. обучающийся из многодетной семьи</p>
+										<p className="material_help_document_href">Документ</p>
+									</div>
+								</div>
+								<br></br>
+								<div className="block-edit-delete">
+									<p className="material_help_bold">Редактировать</p>
+									<p className="material_help_bold">Удалить</p>
+								</div>
+							</div>
+							<p className="profileName">2. Документ</p>
+							<p className="profileName">3. Документ</p>
 							<div id="Events" className="TextStyleN">
-							</div>
-
 						</div>
-						<div className="FlRight">
-							<div className="Fl">
-								<div className="ew_text_search">Фильтры:</div>
-								<div className="ew_text"><div>Форма воспитательной работы:&nbsp;</div><select  className="student-input" type="text">
-									<option selected disabled></option>
-									<option>классный час</option>
-									<option>тематическая беседа</option>
-								</select></div>
-								<div className="ew_text"><div>Кто проводит:&nbsp;</div><input type="text"  className="student-input"></input></div>
-								<div className="ew_text"><div>Направление:&nbsp;</div><select  className="student-input" type="text">
-									<option selected disabled></option>
-									<option>познавательное</option>
-									<option>трудовое</option>
-									<option>экологическое</option>
-								</select></div>
-								<div className="ew_text"><div>Сетевое взаимодействие:&nbsp;</div><input  className="student-input" type="text"></input></div>
-								<div className="ew_text"><div>Проект:&nbsp;</div><input className="student-input" type="text"></input></div>
-								<div className="ew_text"><div>Организация:&nbsp;</div><input className="student-input" type="text"></input></div>
-								<div className="FlRight"><button className="profile-button"><img src="https://i.ibb.co/jbvfRzm/search.png" className="profile-button2"></img></button></div>
-							</div>
 						</div>
 					</div>
 				</div>

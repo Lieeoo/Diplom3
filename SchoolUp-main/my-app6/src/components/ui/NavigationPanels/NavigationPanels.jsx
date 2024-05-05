@@ -165,11 +165,11 @@ export function LeftPanelOfReportManagerUniversity() {
 export function LeftPanelOfControlUniversity() {
 	return(
 		<div className="bookmarks">
-			<a href="report_manager_employment"><button id="commonUniversityTab" className="leftPanelUniversity">Основное</button></a> 
+			<a href="control_users_university"><button id="commonUniversityTab" className="leftPanelUniversity">Основное</button></a> 
 			<a href="report_manager_classes"><button id="extracurricularPlanUniversityTab" className="leftPanelUniversity">Внеучебные планы</button></a>
 			<a href="report_manager_employment"><button id="groupsUniversityTab" className="leftPanelUniversity">Группы</button></a> 
 			<a href="report_manager_employment"><button id="extracurricularEventsUniversityTab" className="leftPanelUniversity">Внеучебные события</button></a> 
-			<a href="report_manager_employment"><button id="reportsUniversityTab" className="leftPanelUniversity">Отчеты</button></a> 
+			<a href="control_reports_university"><button id="reportsUniversityTab" className="leftPanelUniversity">Отчеты</button></a> 
 		</div>
 	);
 

@@ -118,7 +118,7 @@
 }
 .workspace{
 	border-radius: 2vh;
-	border: 0.5vh solid #565656;
+	border: 0.5vh solid #4e4e7e;
 	background-color: #d3dce1;
 }
 .ew_workspace_university{
@@ -618,6 +618,12 @@
 	padding: 2vh;
 	width: 130vh;
 }
+.report-space-university-control{
+	display:flex;
+	flex-direction: column;
+	padding: 2vh;
+	width: 150vh;
+}
 .report-bar{
 	margin: 1vh 0 1vh 0;
 	display: flex;
@@ -660,6 +666,56 @@
 
 .label-input {
     margin-bottom: 10px; /* Дополнительный отступ снизу каждого label */
+}
+
+/* Материальная помощь */
+
+.document-container-border {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.document-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+	width: 120vh;
+	margin-top: 10px;
+}
+
+.document-section {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+	width: 60vh;
+}
+
+.document-section p {
+    margin: 5px 0;
+	font-size: 20px;
+}
+.material_help_workspace_university{
+	border-radius: 2vh;
+	border: 0.5vh solid #4e4e7e;
+	background-color: #eef6f6;
+	display: flex;
+	justify-content: space-between;
+	padding: 2vh;
+	width: 130vh;
+}
+.material_help_document_href{
+	text-decoration: underline;
+}
+.material_help_bold{
+	font-weight: bold;
+}
+.block-edit-delete{
+	display: flex; 
+	flex-direction: row;
+}
+
+.block-edit-delete > * {
+	margin-right: 50px;
 }
 
 /* Прочее */
@@ -764,6 +820,15 @@
 }
 .listboxClass-undercriteria{
 	width: 70vh;
+}
+.listboxClass-group{
+	width: 10vh;
+}
+.listboxClass-accessible-tab{
+	width: 30vh;
+}
+.label-main {
+    font-weight: bold;
 }
 th {
     font-weight: normal; /* Устанавливаем нежирное начертание для заголовков таблицы */
