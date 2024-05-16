@@ -21,7 +21,7 @@
 	font-weight: bold;
 }
 .text-info{
-	font-size: 2vh;
+	font-size: 2.5vh;
 }
 .text-info-smaller{
 	font-size: 1.8vh;
@@ -39,7 +39,7 @@
 	font-size: 3vh;
 }
 .student-info-text{
-	font-size: 2vh;
+	font-size: 2.5vh;
 	text-align: left;
 	
 	margin-left: 2vh;
@@ -487,6 +487,9 @@
 	text-align: left;
 	position: relative;
 	margin-left: 5vh;
+	width: 180vh;
+	padding-left: 10vh;
+	padding-right: 10vh;
 }
 .St{
 	font-size: 15px;
@@ -559,8 +562,8 @@
 	background: #eef6f6;
 	border-radius: 3vh;
 	border: 0.2vh solid #495b87;
-
-	font-size: 2vh;
+	width: 70vh;
+	font-size: 3vh;
 	
 	text-align: center;
 	align-items: center;
@@ -746,6 +749,13 @@
 .material_help_document_href{
 	text-decoration: underline;
 	color: #0022c1;
+}
+.student_document_href{
+	text-decoration: underline;
+	color: #0022c1;
+	text-align: left;
+	margin-left: 2vh;
+	margin-bottom: 2vh;
 }
 .material_help_bold{
 	font-weight: bold;

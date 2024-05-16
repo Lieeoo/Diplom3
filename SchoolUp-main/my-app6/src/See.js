@@ -49,29 +49,28 @@ export function ProfileOfStudent() {
   );
 }
 
-export function ProfileOfStudentUniversity() {
+export function ProfileOfStudentUniversity({ student, faculty }) {
 	return (
 	  <div id="SP" className="profile-student">
-		  <h2 id="fio" className="profileName"></h2>
-		  <div className="TextBox5">
-			  <div id="sex" className="text-info"></div>
-		  </div>
-		  <hr className="hrEventProfile"/>
-			  <div className="student-info-text"><div>Пол:&nbsp;</div><div id="profileFamilyCondition"></div></div>
-			  <div className="student-info-text"><div>Возраст:&nbsp;</div><div>1</div></div>
-			  <div className="student-info-text"><div>Направление подготовки:&nbsp;</div><div id="profileFamilysMoney"></div></div>
-			  <div className="student-info-text"><div>Гражданство:&nbsp;</div><div>1</div></div>
-			  <div className="student-info-text"><div>Балл абитуриента:&nbsp;</div><div>1</div></div>
-		  <hr className="hrEventProfile"/>
-		  <p className="text-info">Расселение в общежитие</p>
-			<div className="student-info-text"><div>Общежитие:&nbsp;</div><div>1</div></div>
-			<div className="student-info-text"><div>Период проживания:&nbsp;</div><div>1</div></div>
-			<div className="student-info-text"><div>Документ:&nbsp;</div><div>1</div></div>
-		<hr className="hrEventProfile"/>
-		  <p className="text-info">Материальная помощь</p>
-			<div className="student-info-text"><div>Пункт положения:&nbsp;</div><div>1</div></div>
-			<div className="student-info-text"><div>Дата действия заявления:&nbsp;</div><div>1</div></div>
-			<div className="student-info-text"><div>Документ:&nbsp;</div><div>1</div></div>
+		<h2 id="fio" className="profileName">{student.fio}</h2>
+		<div className="student-info-text">{faculty}</div>
+		<hr className="hrEventProfile" />
+		<div className="student-info-text"><div>Пол:&nbsp;</div><div>{student.gender}</div></div>
+		<div className="student-info-text"><div>Возраст:&nbsp;</div><div>{student.age}</div></div>
+		<div className="student-info-text"><div>Направление подготовки:&nbsp;</div><div>{student.program}</div></div>
+		<div className="student-info-text"><div>Гражданство:&nbsp;</div><div>{student.citizenship}</div></div>
+		<div className="student-info-text"><div>Балл абитуриента:&nbsp;</div><div>{student.score}</div></div>
+		<hr className="hrEventProfile" />
+		<p className="text-info">Расселение в общежитие</p>
+		<div className="student-info-text"><div>Общежитие:&nbsp;</div><div>{student.dormitory}</div></div>
+		<div className="student-info-text"><div>Период проживания:&nbsp;</div><div>{student.period}</div></div>
+		<div class="student_document_href"><div>Документ</div></div>
+		<hr className="hrEventProfile" />
+		<p className="text-info">Материальная помощь</p>
+		<div className="student-info-text"><div>Пункт положения:&nbsp;</div><div>{student.helpPoint}</div></div>
+		<div className="student-info-text"><div>Дата действия заявления:&nbsp;</div><div>{student.applicationDate}</div></div>
+		<div class="student_document_href"><div>Документ</div></div>
+		<hr className="hrEventProfile" />
 	  </div>
 	);
   }
