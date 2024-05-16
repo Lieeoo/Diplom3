@@ -378,27 +378,21 @@ function ReportManagerPage() {
 									</div>
 									<div className="block-vertical-flex">
 										<div className="block-horizontal-flex">
-											<select className="listboxClass-undercriteria" multiple size={7} onChange={handleCategoryChange}>
+											<select className="listboxClass-undercriteria" multiple size={7} disabled onChange={handleCategoryChange}>
 												{Object.keys(facultiesGroups).map(category => (
 													<option key={category} value={category}>{category}</option>
 												))}
 											</select>
-											<select className="listboxClass-group" multiple size={3} onChange={handleCriteriaChange}>
-												{selectedCategories.flatMap(category => facultiesGroups[category] || []).map(criteriaItem => (
-													<option key={criteriaItem} value={criteriaItem}>{criteriaItem}</option>
-												))}
+											<select className="listboxClass-group" multiple size={3} disabled>
 											</select>
 										</div>
 									</div>
 									<div className="block-vertical-flex">
 										<label>Доступные группы:</label>
 										<div className="block-horizontal-flex">
-											<select className="listboxClass-group" multiple value={selectedItemsToRemove} onChange={handleFinalItemsSelection}>
-												{selectedFinalItems.map(item => (
-													<option key={item} value={item}>{item}</option>
-												))}
+											<select className="listboxClass-group" multiple size={3} disabled>
 											</select>
-											<button onClick={handleRemoveSelected}>Убрать</button>
+											<button disabled>Убрать</button>
 										</div>
 									</div>
 								</div>

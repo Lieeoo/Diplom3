@@ -15,12 +15,28 @@
 	color: #4e4e7e;
 	font-size: 3vh;
 }
+.profileNameClicked{
+	color: #4e4e7e;
+	font-size: 3vh;
+	font-weight: bold;
+}
 .text-info{
 	font-size: 2vh;
+}
+.text-info-smaller{
+	font-size: 1.8vh;
 }
 .text-main{
 	color: #4e4e7e;
 	font-size: 2.5vh;
+}
+.text-main-changed{
+	color: #4e4e7e;
+	font-size: 3.2vh;
+}
+.text-main-changed-smaller{
+	color: #4e4e7e;
+	font-size: 3vh;
 }
 .student-info-text{
 	font-size: 2vh;
@@ -120,6 +136,11 @@
 	border-radius: 2vh;
 	border: 0.5vh solid #4e4e7e;
 	background-color: #d3dce1;
+}
+.workspace-report-university{
+	border-radius: 2vh;
+	border: 0.5vh solid #4e4e7e;
+	background-color: #dae9f1;
 }
 .ew_workspace_university{
 	border-radius: 2vh;
@@ -242,7 +263,7 @@
 	padding: 0 16px;
 	margin: 0 auto;
 	
-	height: 8vh;
+	height: 10vh;
 	width: 97.66vw;
 }
 .topbutton {
@@ -265,11 +286,11 @@
 	margin-left: 0.5vh;
 	margin-right: 0.5vh;
 	
-	font-size: 2vh;
+	font-size: 2.5vh;
 	color: #4e4e7e;
 	
-	width: 18vh;
-	height: 8vh;
+	width: 23vh;
+	height: 10vh;
 }
 .topbutton-page {
 	background: #8ccba1;
@@ -298,8 +319,10 @@
 	margin-right: 0.5vh;
 	padding-top: 1.5vh;
 	
-	width: 18.5vh;
-	height: 10.5vh;
+	width: 23vh;
+	height: 12.5vh;
+
+	font-size: 2.5vh;
 }
 
 /* Профиль */
@@ -383,10 +406,18 @@
 	border-radius: 2vh;
 	border: 0.5vh solid #8ccba1;
 }
+.bookmarks-university{
+	display:flex;
+	flex-direction: column;
+	overflow: hidden;
+	width: 22vh;
+	margin-top:2vh;
+}
 .leftPanelUniversity{
-	font-size: 2vh;
+	/*font-size: 2vh;*/
+	font-size: 2.5vh;
 	background: #4e4e7e;
-	width:19.4vh;
+	width:23vh;
 	position: relative;
 	margin-top: 1vh;
 	margin-bottom: 1vh;
@@ -397,9 +428,9 @@
 }
 
 .leftPanelUniversity_clicked{
-	font-size: 2vh;
+	font-size: 2.5vh;
 	background: #eef6f6;
-	width:19.4vh;
+	width:23vh;
 	position: relative;
 	
 	margin-top: 1vh;
@@ -616,8 +647,10 @@
 	display:flex;
 	flex-direction: column;
 	padding: 2vh;
-	width: 130vh;
+	width: 140vh;
+	font-size: 2.8vh;
 }
+
 .report-space-university-control{
 	display:flex;
 	flex-direction: column;
@@ -663,6 +696,9 @@
     flex-direction: column;
     gap: 5px; /* Отступ между датами */
 }
+.date-container > * {
+    margin-top: 10px;
+}
 
 .label-input {
     margin-bottom: 10px; /* Дополнительный отступ снизу каждого label */
@@ -705,6 +741,7 @@
 }
 .material_help_document_href{
 	text-decoration: underline;
+	color: #0022c1;
 }
 .material_help_bold{
 	font-weight: bold;
@@ -745,6 +782,9 @@
     flex-wrap: nowrap;
 	justify-content: center;
     width: 100%; 
+}
+.block-horizontal-flex-show-sample > *{
+	margin-left: 10px;
 }
 .block-horizontal-flex-show-sample-control{
 	display: inline-flex; 
@@ -808,6 +848,9 @@
     align-items: right; 
     flex-wrap: nowrap;
 }
+.block-horizontal-flex-report-right > *{
+	margin-left: 1vh;
+}
 .block-vertical-flex-report-parameters > * {
     margin-top: 10px;    /* Отступ сверху */
     margin-bottom: 10px; /* Отступ снизу */
@@ -816,10 +859,10 @@
 	width: 25vh;
 }
 .listboxClass-criteria{
-	width: 25vh;
+	width: 30vh;
 }
 .listboxClass-undercriteria{
-	width: 70vh;
+	width: 80vh;
 }
 .listboxClass-group{
 	width: 10vh;
@@ -832,4 +875,28 @@
 }
 th {
     font-weight: normal; /* Устанавливаем нежирное начертание для заголовков таблицы */
+}
+select {
+    font-size: 2.3vh;
+	border-radius: 1vh;
+	border: 0.25vh solid #4e4e7e;
+	background-color: #eef6f6;
+	padding: 5px;
+}
+option:checked {
+    background-color: rgb(186 204 230);
+}
+button {
+	font-size: 2.5vh;
+	background-color: #4e4e7e;
+	border-radius: 1vh;
+	color: #f2f2ff;
+	padding: 0.7vh;
+}
+input {
+	font-size: 2.3vh;
+	border-radius: 1vh;
+	border: 0.25vh solid #4e4e7e;
+	background-color: #eef6f6;
+	padding: 5px;
 }

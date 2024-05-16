@@ -238,7 +238,7 @@ function ReportManagerPage() {
 			< TopPanelUniversity />
 			<div className="mavr">
 				< LeftPanelOfReportManagerUniversity />
-					<div className="workspace">
+					<div className="workspace-report-university">
 						<div id="myModal" class="modal">
 							<div class="modal-content">
 								<span class="close">&times;</span>
@@ -248,9 +248,11 @@ function ReportManagerPage() {
 						<div className="report-space-university">
 							<div>
 								<div className="text-info"> 
-									<p className="text-main">
-										Составить отчеты: 
-										</p>
+									<p className="text-main-changed">Составить отчеты:</p>
+								</div>
+								<hr></hr>
+								<div className="text-info"> 
+									<p className="text-main-changed-smaller">Выбор критериев:</p>
 								</div>
 								<div className="select-container">
 									<div className="block-horizontal-flex">
@@ -264,6 +266,9 @@ function ReportManagerPage() {
 												<option key={subCriterion} value={subCriterion}>{subCriterion}</option>
 											))}
 										</select>
+									</div>
+									<div className="text-info"> 
+										<p className="text-main-changed-smaller">Параметры:</p>
 									</div>
 									<div className="block-horizontal-flex">
 										<div className="date-container">
@@ -677,7 +682,7 @@ function formatEntry(entry) {
     if (entry.Number) {
         formattedText += `\nЧисло мест: ${entry.Number}`;
     }
-    formattedText += `\nДата: ${entry.DataOn}\n`;
+    formattedText += `\nДата: 2024-01-30\n`;
     return formattedText;
 }
 

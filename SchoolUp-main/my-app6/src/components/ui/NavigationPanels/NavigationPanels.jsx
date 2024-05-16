@@ -6,7 +6,6 @@ import {mavr_context} from "../globalContext";
 export function TopPanelUniversity() {
 	return(
 		<div className="top-panel-university">
-				<img src={icon} className="top-icon" alt /> 
 				<a href="university">
 					<button id="university_studs" className="topbuttonUniversity" > Студенты </button> 
 				</a>
@@ -121,7 +120,7 @@ export function LeftPanelOfExtracurricularWork() {
 
 export function LeftPanelOfMaterialrWork() {
 	return(
-		<div className="bookmarks">
+		<div className="bookmarks-university">
 			<a href="educational_work"><button id="vr" className="leftPanelUniversity">Документы</button></a> 
 			<a href="goals_of_educational_work"><button id="cvr" className="leftPanelUniversity">Внести документ</button></a>
 			<a href="educational_work_archive"><button id="as" className="leftPanelUniversity">Архив документов</button></a>
@@ -132,7 +131,7 @@ export function LeftPanelOfMaterialrWork() {
 
 export function LeftPanelOfDormitoriesWork() {
 	return(
-		<div className="bookmarks">
+		<div className="bookmarks-university">
 			<a href="educational_work"><button id="vr" className="leftPanelUniversity">Документы</button></a> 
 			<a href="goals_of_educational_work"><button id="cvr" className="leftPanelUniversity">Внести документ</button></a>
 			<a href="educational_work_archive"><button id="as" className="leftPanelUniversity">Архив документов</button></a>
@@ -154,7 +153,7 @@ export function LeftPanelOfReportManager() {
 
 export function LeftPanelOfReportManagerUniversity() {
 	return(
-		<div className="bookmarks">
+		<div className="bookmarks-university">
 			<a href="report_manager_employment"><button id="reportUniversityTab" className="leftPanelUniversity">Составление отчетов</button></a> 
 			<a href="report_manager_classes"><button id="reportArchiveUniversityTab" className="leftPanelUniversity">Архив</button></a>
 		</div>
@@ -164,7 +163,7 @@ export function LeftPanelOfReportManagerUniversity() {
 
 export function LeftPanelOfControlUniversity() {
 	return(
-		<div className="bookmarks">
+		<div className="bookmarks-university">
 			<a href="control_users_university"><button id="commonUniversityTab" className="leftPanelUniversity">Основное</button></a> 
 			<a href="report_manager_classes"><button id="extracurricularPlanUniversityTab" className="leftPanelUniversity">Внеучебные планы</button></a>
 			<a href="report_manager_employment"><button id="groupsUniversityTab" className="leftPanelUniversity">Группы</button></a> 
