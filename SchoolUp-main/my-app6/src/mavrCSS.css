@@ -228,6 +228,10 @@
 	display: flex;
     flex-direction: row;
 }
+.elements-to-row-card {
+	display: flex;
+    flex-direction: row;
+}
 .elements-to-center{
 	display: flex;
   	align-items: center;
@@ -471,7 +475,7 @@
 	border: 0.5vh solid #4e4e7e;
 	background-color: #eef6f6;
 	
-	width: 150vh;
+	width: 190vh;
 	
 	padding: 2vh;
 	

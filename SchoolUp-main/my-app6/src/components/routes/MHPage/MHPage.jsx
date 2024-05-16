@@ -59,7 +59,7 @@ function DocumentCard({ document, isVisible, onClick }) {
   return (
     <div>
       <p className={isVisible ? "profileNameClicked" : "profileName"} onClick={onClick}>
-        {document.title}
+	  	{document.id}. Документ - {document.dateOfStatement}
       </p>
       {isVisible && (
         <div className="document-container-border">

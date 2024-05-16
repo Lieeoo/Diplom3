@@ -1,109 +1,153 @@
 import '../../../mavrCSS.css';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
-import {TopPanelUniversity} from "../../ui/NavigationPanels/NavigationPanels.jsx";
-import {enter6, enter9} from "../../ui/ClassroomLayouts/ClassroomCreateStudent/ClassroomCreateStudent.jsx";
-import {ProfileOfStudent, ClStudFaPol, ClStudFaNepol, StudProfRed, NewStFaPol, NewStFaNepol, NewStFaOp, Overlay,AdditionalEducation} from "../../../See.js";
+import { TopPanelUniversity } from "../../ui/NavigationPanels/NavigationPanels.jsx";
+import { enter6, enter9 } from "../../ui/ClassroomLayouts/ClassroomCreateStudent/ClassroomCreateStudent.jsx";
+import { ProfileOfStudentUniversity, ClStudFaPol, ClStudFaNepol, StudProfRed, NewStFaPol, NewStFaNepol, NewStFaOp, Overlay, AdditionalEducation } from "../../../See.js";
 
-const renderProfileOfStudent = <ProfileOfStudent />;
-const element2 = <ClStudFaPol />;
-const element3 = <ClStudFaNepol />;
-const element4 = <StudProfRed />;
-const element5 = <NewStFaPol />;
-const element6 = <NewStFaNepol />;
-const element7 = <NewStFaOp />;
-const element8 = <Overlay />;
-const element9 = <AdditionalEducation />;
+const facultiesGroups = {
+  "Автономная образовательная программа TISP": [
+    "862001",
+    "862101",
+    "862201",
+    "862301"
+  ],
+  "Автономная образовательная программа Анализ естественного языка (NLP) в лингвистике и IT": [
+    "722303",
+    "722304"
+  ],
+  "Автономная образовательная программа Биофотоника": [
+    "902211",
+    "902311",
+    "902411"
+  ],
+  "Автономная образовательная программа Дата-аналитика для бизнеса": [
+    "722301"
+  ],
+  "Автономная образовательная программа Евразийская интеграция: политика, право, торгово-экономическое взаимодействие": [
+    "282204",
+    "282304"
+  ],
+  "Автономная образовательная программа Изучение Сибири и Арктики": [
+    "282201",
+    "282301"
+  ],
+  "Автономная образовательная программа Компьютерная и когнитивная лингвистика": [
+    "132283",
+    "132383"
+  ],
+  "Автономная образовательная программа Устойчивое развитие и управление территорией": [
+    "282202"
+  ],
+  "Геолого-географический факультет": [
+    "022001",
+    "022002",
+    "022003",
+    "022004",
+    "022005",
+    "022006",
+    "022007",
+    "022101",
+    "022102",
+    "022103"
+  ],
+  "Институт биологии, экологии, почвоведения, сельского и лесного хозяйства (Биологический институт)": [
+    "00000",
+    "012001",
+    "012002",
+    "012003",
+    "012004",
+    "012005",
+    "012006",
+    "012007",
+    "012101",
+    "012102"
+  ]
+};
 
-let flag = false;
+const studentsData = {
+  "022002": [
+    "Иванов Иван Иванович",
+    "Петров Петр Петрович",
+    "Сидоров Сидор Сидорович",
+    "Кузнецов Николай Николаевич",
+    "Смирнов Сергей Сергеевич"
+  ],
+  // Другие группы и студенты могут быть добавлены здесь
+};
 
-let port_reg_cl = "http://localhost:5500/API/class/";
-let port_find_students = "http://localhost:5500/API/student/:id";
-let port_find_fa = "http://localhost:5500/api/family/:id";
-let port_reg_fa = "http://localhost:5500/API/family/";
-let port_edit_fa = "http://localhost:5500/API/family/test";
-let port_edit_st = "http://localhost:5500/API/student/red";
-let port_delete_st = "http://localhost:5500/api/student/:id";
-let port_red_fa = "http://localhost:5500/API/family/redold";
-let port_show_students_dop = "http://localhost:5500/API/student/addeduc";
-let port_show_dop_organization = "http://localhost:5500/api/institution/id";
-let port_show_dop_directions = "http://localhost:5500/api/additEduc/getNAPR";
-let port_show_thisuser = "http://localhost:5500/API/user/whoami";
-let port_show_all_students = "http://localhost:5500/api/student/ALLL";
-
-var classes=new Array();
-
+const renderProfileOfStudentUniversity = <ProfileOfStudentUniversity />;
 
 function UniversityPage() {
-	window.onload = function() {
-			document.getElementById('university_studs').className = "topbutton-page-university";
-			//enter2(classes)
-			enter4(classes);
-		};
-	return (
-		<div className="pageUniversity">
-			< TopPanelUniversity />
-			<div className="mavr">
-				<div id="ClList" className="classes">
+  const [selectedFaculty, setSelectedFaculty] = useState("");
+  const [selectedGroup, setSelectedGroup] = useState("");
+  const [students, setStudents] = useState([]);
+
+  window.onload = function() {
+    document.getElementById('university_studs').className = "topbutton-page-university";
+  };
+
+  const handleFacultyChange = (event) => {
+    setSelectedFaculty(event.target.value);
+    setSelectedGroup("");
+    setStudents([]);
+  };
+
+  const handleGroupChange = (event) => {
+    const group = event.target.value;
+    setSelectedGroup(group);
+    if (group === "022002") {
+      setStudents(studentsData["022002"]);
+    } else {
+      setStudents([]);
+    }
+  };
+
+  return (
+    <div className="pageUniversity">
+      <TopPanelUniversity />
+      <div className="mavr">
+        <div id="aaa" className="classes-space-university">
+        	<div className="student-list">
+				<div className="elements-to-row">
+				<p className="text-main">Институт</p>
+				<div className="elements-to-center">
+					<select id="faculty-select" value={selectedFaculty} onChange={handleFacultyChange}>
+					<option value="">Выберите институт</option>
+					{Object.keys(facultiesGroups).map((faculty) => (
+						<option key={faculty} value={faculty}>{faculty}</option>
+					))}
+					</select>
 				</div>
-				<div id="aaa" className="classes-space-university">
-					<div className="student-list">
-                        <div className="elements-to-row">
-                            <p className="text-main">Институт</p>
-                            <div className="elements-to-center">
-                                <select id="institute-select">
-                                <option value="">Институт прикладной математики и компьютерных наук</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div className="elements-to-row">
-                            <p className="text-main">Группа</p>
-							<div className="elements-to-center">
-                                <select id="institute-select">
-                                <option value="">932209</option>
-                                </select>
-                            </div>
-                        </div>
-						<a href="create_new_student"><button className="profile-button"><img src="https://i.ibb.co/4mZtQCb/user-student-add.png" className="profile-button2"></img></button></a>
-						<p className="text-main">Состав группы</p>
-						<div id="Students">
-						</div>							
+				</div>
+				<div className="elements-to-row">
+				<p className="text-main">Группа</p>
+				<div className="elements-to-center">
+					<select id="group-select" value={selectedGroup} onChange={handleGroupChange} disabled={!selectedFaculty}>
+					<option value="">Выберите группу</option>
+					{selectedFaculty && facultiesGroups[selectedFaculty].map((group) => (
+						<option key={group} value={group}>{group}</option>
+					))}
+					</select>
+				</div>
+				</div>
+				<p className="text-main">Состав группы</p>
+				<div className="elements-to-row-card">
+					<div id="Students">
+						{students.map((student, index) => (
+						<p key={index}>{student}</p>
+						))}
 					</div>
 					<div id="SetSP" className="indent">
+						<ProfileOfStudentUniversity />
 					</div>
 				</div>
-			</div>
-			<div id= "a"></div>
-		</div>
-  );	
-}
-
-//Вывод кнопок классов
-async function enter2(classes) {
-	let responsegetclassesofuser = await fetch(port_reg_cl, {
-		method: 'GET',
-		headers: {
-		Authorization: `Bearer ${localStorage.token}` ,
-		'Content-Type': 'application/json;charset=utf-8'
-		},
-		});
-	let resultgetclassesofuser = await responsegetclassesofuser.json();
-	let result2 = JSON.stringify(resultgetclassesofuser);
-	alert(result2);
-}
-
-//Вывод учеников класса
-async function enter4(classes) {
-	let responsegetclassesofuser = await fetch(port_show_all_students, {
-		method: 'GET',
-		headers: {
-		Authorization: `Bearer ${localStorage.token}` ,
-		'Content-Type': 'application/json;charset=utf-8'
-		},
-		});
-	let resultgetclassesofuser = await responsegetclassesofuser.json();
-	let result2 = JSON.stringify(resultgetclassesofuser);
-	alert(result2);
+        	</div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default UniversityPage;

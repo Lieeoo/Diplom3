@@ -49,6 +49,33 @@ export function ProfileOfStudent() {
   );
 }
 
+export function ProfileOfStudentUniversity() {
+	return (
+	  <div id="SP" className="profile-student">
+		  <h2 id="fio" className="profileName"></h2>
+		  <div className="TextBox5">
+			  <div id="sex" className="text-info"></div>
+		  </div>
+		  <hr className="hrEventProfile"/>
+			  <div className="student-info-text"><div>Пол:&nbsp;</div><div id="profileFamilyCondition"></div></div>
+			  <div className="student-info-text"><div>Возраст:&nbsp;</div><div>1</div></div>
+			  <div className="student-info-text"><div>Направление подготовки:&nbsp;</div><div id="profileFamilysMoney"></div></div>
+			  <div className="student-info-text"><div>Гражданство:&nbsp;</div><div>1</div></div>
+			  <div className="student-info-text"><div>Балл абитуриента:&nbsp;</div><div>1</div></div>
+		  <hr className="hrEventProfile"/>
+		  <p className="text-info">Расселение в общежитие</p>
+			<div className="student-info-text"><div>Общежитие:&nbsp;</div><div>1</div></div>
+			<div className="student-info-text"><div>Период проживания:&nbsp;</div><div>1</div></div>
+			<div className="student-info-text"><div>Документ:&nbsp;</div><div>1</div></div>
+		<hr className="hrEventProfile"/>
+		  <p className="text-info">Материальная помощь</p>
+			<div className="student-info-text"><div>Пункт положения:&nbsp;</div><div>1</div></div>
+			<div className="student-info-text"><div>Дата действия заявления:&nbsp;</div><div>1</div></div>
+			<div className="student-info-text"><div>Документ:&nbsp;</div><div>1</div></div>
+	  </div>
+	);
+  }
+
 export function AdditionalEducation() {
   return (
 		<div className="TextBox2">
@@ -189,7 +216,7 @@ export function NewStFaPol() {
 			<p>Мать: </p>
 				<div>
 				<p>Образовательный уровень:
-				<select id="createStudentEducationLevelMother" className="student-input" onChange={e => {obrurma = e.target.value}}>>
+				<select id="createStudentEducationLevelMother" className="student-input" onChange={e => {obrurma = e.target.value}}>
 					<option>высшее</option>
 					<option>незаконченное высшее</option>
 					<option>средне-специальное</option>
