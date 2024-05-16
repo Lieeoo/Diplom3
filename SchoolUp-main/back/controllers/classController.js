@@ -13,12 +13,12 @@ class ClassController {
     async create(req,res,next) 
     {
         try{
-            let {letter, number, birthday} = req.body
+            let {letter, number, birthday,facultyID} = req.body
 
 
 
 
-            const klass = await Class.create({letter, number, birthday});
+            const klass = await Class.create({letter, number, birthday,facultyID});
             return res.json(klass)
         }
         catch(e)
@@ -158,6 +158,10 @@ class ClassController {
                         classes= await Class.findAll({where: {number, letter},limit,ofset})
 
                     }
+                        else if(letter && number){
+                            classes= await Class.findAll({where: {number, letter},limit,ofset})
+
+                        }
                     return res.json(classes)
                 }
 }

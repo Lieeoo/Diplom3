@@ -46,9 +46,16 @@ const Class = sequelize.define('Class',{
     number: {type: DataTypes.STRING, allowNull: false},// цифра класса чтобы не парить мозг и просто вывести все 14е классы
     birthday: {type: DataTypes.DATEONLY, allowNull: false,defaultValue: (2011, 11, 11)},// дата сформирования класса
     //number_of_students: {type: DataTypes.INTEGER, allowNull: false},//количевство детей в классе
-    ////class_master_id: {type: DataTypes.INTEGER, allowNull: false},//айди классрука
+    facultyID: {type: DataTypes.INTEGER, },//айди факультета.
     //img: {type: DataTypes.STRING, allowNull: false},    
     }) 
+
+    const Faculty = sequelize.define('Faculty',{
+      id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},//айди класса что очевидно
+      description: {type: DataTypes.STRING, allowNull: false},// буква класса чтобы могли вывести все классы "ы"
+      
+      
+      }) 
 
     const Family = sequelize.define('Family',{  
         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -131,7 +138,7 @@ const Class = sequelize.define('Class',{
 
 
 
-     const Plan_Of_Class = sequelize.define('Plan_Of_Class',{  //учреждение
+     const Plan_Of_Class = sequelize.define('Plan_Of_Class',{  //план класса
         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
         class_id: {type: DataTypes.INTEGER,  allowNull: false },
         year_of_plan:{type: DataTypes.INTEGER, allowNull: false /*,defaultValue: "неизвестен"*/},//год образования плана
@@ -147,8 +154,8 @@ const Class = sequelize.define('Class',{
         name:{type: DataTypes.TEXT('long'), allowNull: false },
     })
 
-    const Res_Agr = sequelize.define('Res_Agr',{
-      id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},//айди класса что очевидно
+    const Res_Agr = sequelize.define('Res_Agr',{ //договор найма жилого помещения
+      id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
       StudentID:{type: DataTypes.INTEGER,allowNull: false},  
       RoomID:{type: DataTypes.INTEGER,allowNull: false},  
       Agr_to_contractID:{type: DataTypes.INTEGER,allowNull: false}, 
@@ -157,39 +164,40 @@ const Class = sequelize.define('Class',{
       date_of_canceling: {type: DataTypes.DATEONLY},
       }) 
 
-      const Room = sequelize.define('Room',{
-         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},//айди класса что очевидно  
+      const Room = sequelize.define('Room',{ //комната
+         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
          DormitoryID:{type: DataTypes.INTEGER,allowNull: false},  
          Floor:{type: DataTypes.INTEGER,allowNull: false}, 
          Numb_of_max_residents :{type: DataTypes.INTEGER,allowNull: false,defaultValue: 3},
 
       })  
-      const Dormitory = sequelize.define('Dormitory',{
-         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},//айди класса что очевидно  
+      const Dormitory = sequelize.define('Dormitory',{ // общежитие
+         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}, 
          name: {type: DataTypes.STRING,allowNull: false, defaultValue: "безымянный"},
          adress:{type: DataTypes.STRING,allowNull: false, defaultValue: "безымянович"},
 
       })
       
-      const Contract_to_agreement = sequelize.define('Contract_to_agreement',{
-         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},//айди класса что очевидно
+      const Contract_to_agreement = sequelize.define('Contract_to_agreement',{ //соглашение к договору найма
+         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
          date: {type: DataTypes.DATEONLY},
          rent:{type: DataTypes.INTEGER, defaultValue: 0},
          Rector_order:{type: DataTypes.STRING, allowNull: false, defaultValue: "отсутствует"},
          }) 
 
-      const Form_Otchet= sequelize.define('Form_Otchet',{
-         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},//айди класса что очевидно  
+      const Form_Otchet= sequelize.define('Form_Otchet',{ //блок шаблона отчета???
+         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}, 
          name: {type: DataTypes.STRING,allowNull: false, defaultValue: "безымянный"},
          idFormVosp: {type: DataTypes.INTEGER}
 
       })
 
-      const Module_form= sequelize.define('Module_form',{
-         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},//айди класса что очевидно  
+      const Module_form= sequelize.define('Module_form',{  // модуль формы?
+         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
          text: {type: DataTypes.STRING,allowNull: false, defaultValue: "безымянный"},
          
       })
+      
 
 
 //-------------------------------ПРОМЕЖУТОЧНЫЕ ТАБЛИЦЫ СВЯЗИ МНОГИЕ КО МНОГИМ---------------------------------------------------------------------------
@@ -263,7 +271,7 @@ const Class_Event = sequelize.define('Class_Event', {
   // event_id:{type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 })
 
-const  Role_Otchet = sequelize.define('User_role', {
+const  Role_Otchet = sequelize.define('User_role', { //роль к отчету
    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
    test:{type: DataTypes.INTEGER},
   // event_id:{type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -275,7 +283,8 @@ const  Role_Otchet = sequelize.define('User_role', {
 User.hasOne(Class)//пользователь имеет только один класс
 Class.belongsTo(User)//класс принадлежит пользователю
 
-
+Faculty.hasMany(Class) //факультет имеет много классов
+Class.belongsTo(Faculty)// класс принадлежит факультету
 
 Class.hasMany(Student) //класс имеет много студентов
 Student.belongsTo(Class)// студент принадлежит классу
@@ -366,6 +375,6 @@ module.exports = {
     Contract_to_agreement,
     Form_Otchet,
     Module_form,
-
+    Faculty
 
 }
