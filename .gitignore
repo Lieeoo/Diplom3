@@ -1,5 +1,6 @@
 # Object file
 *.o
-
+/SchoolUp-main/back/node_modules
+**/node_modules/
 # Ada Library Information
 *.ali
