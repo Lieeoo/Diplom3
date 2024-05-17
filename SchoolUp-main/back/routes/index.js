@@ -21,7 +21,7 @@ const DormitoryRouter= require ('./DormitoryRouter')
 const RoomRouter= require ('./RoomRouter')
 const Contract_to_agreement_Router= require ('./ContractToagreementRouter copy')
 const Res_Agr_Router= require ('./ResAgrRouter')
-
+const Faculty_Router= require ('./FacultyRouter')
 
 
 
@@ -43,6 +43,7 @@ router.use('/Dormitory',DormitoryRouter)//
 router.use('/Room',RoomRouter)//
 router.use('/Contract_to_agreement',Contract_to_agreement_Router)//
 router.use('/Res_Agr',Res_Agr_Router)//
+router.use('/Faculty',Faculty_Router)//
 
 
 module.exports = router
