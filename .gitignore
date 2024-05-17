@@ -1,7 +1,11 @@
 # Object file
 *.o
 /SchoolUp-main/back/node_modules
+/SchoolUp-main/back/package.json
+/SchoolUp-main/back/package-lock.json
 **/node_modules/
+**/package.json
+**/package-lock.json
 # Ada Library Information
 *.ali
 .env
