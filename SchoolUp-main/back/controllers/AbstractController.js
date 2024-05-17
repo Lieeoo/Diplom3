@@ -4,13 +4,13 @@ const {Faculty} = require('../models/model');
 
 class BaseController {
     constructor(model) {
-        this.modell = model;
+        const modell = model;
     }
     //model=Faculty
     async create(req, res, next) {
         //try {
             const data = req.body;
-            const entity = await this.modell.create(data);
+            const entity = await modell.create(data);
             res.json(entity);
        // } catch (error) {
        //     next(error); // Передаем ошибку обработчику ошибок
@@ -19,7 +19,7 @@ class BaseController {
 
     async getAll(req, res, next) {
         try {
-            const entities = await this.modell.findAndCountAll();
+            const entities = await modell.findAndCountAll();
             return res.json(entities);
         } catch (error) {
             next(error);
@@ -30,9 +30,9 @@ class BaseController {
         try {
             const { id, name } = req.body;
             if (name) {
-                await this.modell.destroy({ where: { name } });
+                await modell.destroy({ where: { name } });
             } else if (id) {
-                await this.modell.destroy({ where: { id } });
+                await modell.destroy({ where: { id } });
             } else {
                 throw ApiError.badRequest('Некорректные данные');
             }
